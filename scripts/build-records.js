@@ -31,11 +31,12 @@ const flag = (name, fallback) => {
 };
 const has = (name) => args.includes(name);
 
-const RECORDS_DIR    = flag("--records-dir", path.join(__dirname, "../../../ave/records"));
-const SCHEMA_PATH    = flag("--schema",      path.join(__dirname, "../../../ave/schema/ave-record.schema.json"));
+const RECORDS_DIR    = flag("--records-dir", path.join(__dirname, "../../../bawbel/ave/records"));
+const SCHEMA_PATH    = flag("--schema",      path.join(__dirname, "../../../bawbel/ave/schema/ave-record.schema.json"));
 const OUT_PATH       = flag("--out",         path.join(__dirname, "../records.js"));
-const INCLUDE_DRAFTS = has("--include-drafts");
-const DRY_RUN        = has("--dry-run");
+const INCLUDE_DRAFTS    = has("--include-drafts");
+const DRY_RUN          = has("--dry-run");
+const SKIP_VALIDATION  = has("--skip-validation");
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -75,6 +76,9 @@ if (fs.existsSync(schemaPath)) {
   warn(`Schema not found at ${schemaPath}. Skipping validation.`);
   warn(`Pass --schema <path> to enable validation.`);
 }
+if (SKIP_VALIDATION) {
+  log(`Schema validation SKIPPED (--skip-validation flag set). Records will not be validated.`);
+}
 
 // ── read and parse records ────────────────────────────────────────────────────
 
@@ -113,7 +117,7 @@ for (const file of files) {
   }
 
   // validate against schema
-  if (validate) {
+  if (validate && !SKIP_VALIDATION) {
     const valid = validate(record);
     if (!valid) {
       const messages = validate.errors

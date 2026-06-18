@@ -176,6 +176,30 @@
 <script src="records.js"></script>
 <script>
 const RECORDS = window.RECORDS;
+
+// Normalise records that use the old 0.2.0 shape where severity lives at
+// aivss.aivss_severity instead of the top-level severity field.
+RECORDS.forEach(r => {
+  if (!r.severity && r.aivss && r.aivss.aivss_severity) {
+    r.severity = r.aivss.aivss_severity;
+  }
+  // Normalise aivss_score shortcut
+  if (!r.aivss_score && r.aivss && r.aivss.aivss_score) {
+    r.aivss_score = r.aivss.aivss_score;
+  }
+  // Normalise detection_layer — old records may not have it
+  if (!r.detection_layer) r.detection_layer = 'content';
+  // Normalise attack_class from old "Category - Subcategory" format
+  // keep as-is but ensure it exists
+  if (!r.attack_class && r.attack_class !== '') r.attack_class = '';
+  // Normalise owasp_mcp for crosswalk page
+  if (!r.owasp_mcp && r.aivss && r.aivss.owasp_mcp_mapping) {
+    r.owasp_mcp = r.aivss.owasp_mcp_mapping;
+  }
+  // owasp_mapping -> old records use owasp_mapping directly already
+  // mitre_atlas_mapping -> old records use mitre_atlas_mapping directly
+});
+
 // ============ AVE RECORDS (build-time generated from records/*.json) ============
 
 // transport is a valid detection_layer in practice; add to filter if present
@@ -363,7 +387,13 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); })
 const docLabels={schema:'Schema v1.1 reference',architecture:'AVE architecture (implementer guide)',crosswalk:'crosswalk tables',adopt:'\'Adopt AVE in your tool\' guide'};
 document.querySelectorAll('[data-doc]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); alert('Opens the '+(docLabels[a.dataset.doc]||a.dataset.doc)+' in the full site build.');}));
 
-render();
+if (typeof window.RECORDS === 'undefined' || !window.RECORDS || window.RECORDS.length === 0) {
+  document.getElementById('noresult').style.display = 'block';
+  document.getElementById('noresult').innerHTML =
+    'Registry data not loaded. If you are deploying this site, run: <code>node scripts/build-records.js</code>';
+} else {
+  render();
+}
 // deep link: open a record if the URL points to one
 (function(){
   const m = location.hash.match(/AVE-\d{4}-\d{5}/);

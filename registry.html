@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vulnerability Registry — AVE</title>
+<meta name="description" content="Search and filter every AVE record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0a3024">
+<link rel="canonical" href="https://ave.bawbel.io/registry.html">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ave.bawbel.io/registry.html">
+<meta property="og:title" content="Vulnerability Registry — AVE">
+<meta property="og:description" content="Search and filter every AVE record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
+<meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:site_name" content="AVE — Agentic Vulnerability Enumeration">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@bawbel_io">
+<meta name="twitter:title" content="Vulnerability Registry — AVE">
+<meta name="twitter:description" content="Search and filter every AVE record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
+<meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/ave-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AVE — Agentic Vulnerability Enumeration",
+  "url": "https://ave.bawbel.io",
+  "description": "The open behavioral vulnerability standard for AI agents.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bawbel",
+    "url": "https://bawbel.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ave.bawbel.io/ave-favicon-512.png",
+      "width": 512,
+      "height": 512
+    }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://ave.bawbel.io/registry.html?q={{search_term_string}}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 6 C28 6 36 13 38 22 C30 20 24 22 20 27 C16 22 10 20 2 22 C4 13 12 6 20 6 Z" fill="#d4a017"/>
+        <path d="M20 27 L20 36 M20 27 C18 30 16 32 14 33 M20 27 C22 30 24 32 26 33" stroke="#9ec3b2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="14.5" cy="17" r="1.6" fill="#0a3024"/><circle cx="25.5" cy="17" r="1.6" fill="#0a3024"/>
+      </svg>
+      <span>
+        <span class="wm">A<b>V</b>E</span>
+        <span class="sub">Agentic Vulnerability Enumeration</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="registry.html" class="active">Registry</a>
+      <a href="crosswalks.html">Crosswalks</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="schema.html">Schema</a>
+      <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
+    </nav>
+  </div>
+</div>
+<header class="pagehead">
+  <div class="wrap">
+    <span class="pill">Registry</span>
+    <h1>Vulnerability registry</h1>
+    <p>Every AVE record. Search across ids, titles, attack classes, IOCs, and framework mappings; filter by severity, attack class, and detection layer; click any row for full detail and provenance.</p>
+  </div>
+</header>
+
+<main class="registry" id="registry" style="padding-top:30px;">
+  <div class="wrap">
+    <div class="reg-head">
+      <h2 style="font-size:20px;margin:0;">All records</h2>
+      <div class="count"><b id="rc">12</b> of <span id="tc">12</span> records</div>
+    </div>
+    <div class="toolbar">
+      <div class="field searchwrap">
+        <label for="q">Search</label>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="#5d6f66" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="#5d6f66" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="search" placeholder="id, title, attack class, IOC, framework...">
+      </div>
+      <div class="field"><label for="f-sev">Severity</label>
+        <select id="f-sev"><option value="">All</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select></div>
+      <div class="field"><label for="f-ac">Attack class</label><select id="f-ac"><option value="">All classes</option></select></div>
+      <div class="field"><label for="f-layer">Detection layer</label>
+        <select id="f-layer"><option value="">All layers</option><option value="content">content</option><option value="server_card">server_card</option><option value="registry_metadata">registry_metadata</option><option value="runtime">runtime</option></select></div>
+      <button class="clearbtn" id="clear">Clear</button>
+    </div>
+    <div class="tablecard">
+      <table class="reg">
+        <thead><tr>
+          <th data-sort="ave_id">AVE ID <span class="car"></span></th>
+          <th data-sort="title">Title / attack class <span class="car"></span></th>
+          <th data-sort="severity">Severity <span class="car"></span></th>
+          <th data-sort="aivss" class="hide-sm">AIVSS <span class="car"></span></th>
+          <th data-sort="detection_layer" class="hide-sm">Layer <span class="car"></span></th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="noresult" id="noresult" style="display:none;">No records match these filters.</div>
+    </div>
+  </div>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Record detail">
+  <div class="dhead">
+    <button class="dclose" id="dclose" aria-label="Close">&times;</button>
+    <div class="did" id="d-id"></div>
+    <div class="dtitle" id="d-title"></div>
+    <div class="dmeta"><span class="sev" id="d-sev"></span><span class="ac" id="d-ac"></span></div>
+  </div>
+  <div class="dbody" id="d-body"></div>
+</aside>
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div class="lic">
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
+        <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/AVE-YYYY-NNNNN</span></p>
+      </div>
+      <div class="links">
+        <div>
+          <span class="h">Standard</span>
+          <a href="registry.html">Registry</a>
+          <a href="crosswalks.html">Crosswalks</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="schema.html">Schema v1.1</a>
+          <a href="https://github.com/bawbel/ave">GitHub repo</a>
+        </div>
+        <div>
+          <span class="h">Implementations</span>
+          <a href="https://github.com/bawbel/scanner">Bawbel scanner (reference)</a>
+          <a href="architecture.html">Build your own</a>
+        </div>
+      </div>
+    </div>
+    <div class="base">
+      <span>Sense. Protect. Secure. &mdash; ocean &amp; beyond</span>
+      <span>bawbel.io</span>
+    </div>
+  </div>
+</footer>
+<script src="records.js"></script>
+<script>
+const RECORDS = window.RECORDS;
+// ============ AVE RECORDS (build-time generated from records/*.json) ============
+
+// transport is a valid detection_layer in practice; add to filter if present
+(function ensureLayers(){
+  const sel = document.getElementById('f-layer');
+  const have = new Set(Array.from(sel.options).map(o=>o.value));
+  [...new Set(RECORDS.map(r=>r.detection_layer))].sort().forEach(l=>{
+    if(l && !have.has(l)){ const o=document.createElement('option'); o.value=l; o.textContent=l; sel.appendChild(o); }
+  });
+})();
+
+// ---- state ----
+let sortKey = 'ave_id', sortDir = 1;
+const sevColor = {CRITICAL:'#a81f15',HIGH:'#b1490a',MEDIUM:'#8a6608',LOW:'#3f6e48'};
+const sevRank  = {CRITICAL:4,HIGH:3,MEDIUM:2,LOW:1};
+
+const $ = s => document.querySelector(s);
+const rowsEl = $('#rows'), noResult = $('#noresult');
+
+// populate attack_class filter
+(function(){
+  const sel = $('#f-ac');
+  [...new Set(RECORDS.map(r=>r.attack_class))].sort().forEach(ac=>{
+    const o=document.createElement('option'); o.value=ac; o.textContent=ac; sel.appendChild(o);
+  });
+})();
+
+function matches(r){
+  const q = $('#q').value.trim().toLowerCase();
+  const sev = $('#f-sev').value, ac = $('#f-ac').value, layer = $('#f-layer').value;
+  if(sev && r.severity!==sev) return false;
+  if(ac && r.attack_class!==ac) return false;
+  if(layer && r.detection_layer!==layer) return false;
+  if(q){
+    const hay = [r.ave_id,r.title,r.attack_class,r.description,r.behavioral_fingerprint,
+      r.detection_layer, r.detection_stage, r.evidence_kind_default,
+      r.indicators_of_compromise.join(' '), r.owasp_mcp.join(' '), (r.owasp||[]).join(' '),
+      (r.mitre_atlas||[]).join(' '), (r.mitre_atlas&&r.mitre_atlas.length?'mitre atlas':''),
+      (r.owasp_mcp&&r.owasp_mcp.length?'owasp mcp':''), (r.derivable_into||[]).join(' '),
+      r.references.map(x=>x.text).join(' ')
+    ].join(' ').toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  return true;
+}
+
+function sorted(list){
+  return list.slice().sort((a,b)=>{
+    let av,bv;
+    if(sortKey==='aivss'){ av=a.aivss.aivss_score; bv=b.aivss.aivss_score; }
+    else if(sortKey==='severity'){ av=sevRank[a.severity]; bv=sevRank[b.severity]; }
+    else { av=a[sortKey]; bv=b[sortKey]; }
+    if(av<bv) return -1*sortDir; if(av>bv) return 1*sortDir; return 0;
+  });
+}
+
+function render(){
+  const list = sorted(RECORDS.filter(matches));
+  $('#rc').textContent = list.length;
+  $('#tc').textContent = RECORDS.length;
+  rowsEl.innerHTML = '';
+  noResult.style.display = list.length ? 'none' : 'block';
+  list.forEach(r=>{
+    const tr = document.createElement('tr');
+    tr.tabIndex = 0;
+    tr.innerHTML = `
+      <td class="id">${r.ave_id}</td>
+      <td class="title">${r.title}<span class="ac">${r.attack_class}</span></td>
+      <td><span class="sev ${r.severity}">${r.severity}</span></td>
+      <td class="hide-sm"><div class="aivss"><span class="num">${r.aivss.aivss_score.toFixed(1)}</span><span class="meter"><i style="width:${r.aivss.aivss_score*10}%;background:${sevColor[r.severity]}"></i></span></div></td>
+      <td class="hide-sm"><span class="layer"><span class="dot"></span>${r.detection_layer}</span></td>`;
+    tr.addEventListener('click', ()=>openDrawer(r));
+    tr.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openDrawer(r);} });
+    rowsEl.appendChild(tr);
+  });
+  // sort carets
+  document.querySelectorAll('th[data-sort] .car').forEach(c=>c.textContent='');
+  const th = document.querySelector(`th[data-sort="${sortKey}"] .car`); if(th) th.textContent = sortDir>0?'▲':'▼';
+}
+
+function chip(list, cls){ return (list&&list.length)? list.map(x=>`<span class="chip ${cls||''}">${x}</span>`).join('') : '<span style="color:var(--ink-3);font-family:var(--mono);font-size:12px;">none</span>'; }
+
+function openDrawer(r){
+  $('#d-id').textContent = r.ave_id + '  ·  ' + r.status + '  ·  schema ' + r.schema_version;
+  $('#d-title').textContent = r.title;
+  const sevEl = $('#d-sev'); sevEl.textContent = r.severity; sevEl.className = 'sev '+r.severity;
+  $('#d-ac').textContent = r.attack_class;
+  const a = r.aivss;
+  const provHtml = r.references.map(ref=>`<li><span class="tag">${ref.tag}</span><span>${ref.text}${ref.url?` — <a href="${ref.url}" target="_blank" rel="noopener">source</a>`:''}</span></li>`).join('');
+  const chain = r.derivable_into && r.derivable_into.length
+    ? `<div class="chain">${r.derivable_into.map(c=>`<span class="link">${c}</span>`).join('<span class="arr">→</span>')}</div>`
+    : '<p style="color:var(--ink-3);font-family:var(--mono);font-size:13px;">Does not chain into a known toxic flow.</p>';
+  $('#d-body').innerHTML = `
+    <div class="prov">
+      <h3>Provenance — where this record comes from</h3>
+      <ul>${provHtml}</ul>
+    </div>
+
+    <div class="block"><h3>Behavioral fingerprint</h3>
+      <div class="fingerprint">${r.behavioral_fingerprint}</div>
+    </div>
+
+    <div class="block"><h3>Description</h3><p>${r.description}</p></div>
+
+    <div class="block">
+      <div class="grid2">
+        <div class="panel">
+          <h4>AIVSS v0.8</h4>
+          <div class="aivss-big"><span class="score" style="color:${sevColor[r.severity]}">${a.aivss_score.toFixed(1)}</span><span class="of">/ 10</span></div>
+          <div class="matrix">
+            <span class="k">cvss_base</span><span class="v">${a.cvss_base}</span>
+            <span class="k">aars</span><span class="v">${a.aars}</span>
+            <span class="k">thm</span><span class="v">${a.thm}</span>
+            <span class="k">mitigation_factor</span><span class="v">${a.mitigation_factor}</span>
+          </div>
+        </div>
+        <div class="panel">
+          <h4>Framework mappings</h4>
+          <div style="margin-bottom:10px"><div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-bottom:6px">OWASP MCP TOP 10</div><div class="chips">${chip(r.owasp_mcp,'mcp')}</div></div>
+          <div style="margin-bottom:10px"><div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-bottom:6px">MITRE ATLAS</div><div class="chips">${chip(r.mitre_atlas_mapping,'atlas')}</div></div>
+          <div><div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-bottom:6px">OWASP AGENTIC TOP 10</div><div class="chips">${chip(r.owasp_mapping)}</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block"><h3>Capability chain — derivable into</h3>${chain}</div>
+
+    <div class="block"><h3>Indicators of compromise</h3>
+      <ul class="ioc">${r.indicators_of_compromise.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>
+
+    <div class="block"><h3>Remediation</h3><p>${r.remediation}</p></div>
+
+    <div class="block"><h3>Record details</h3>
+      <div class="panel"><div class="evgrid">
+        <span class="k">status</span><span class="v">${r.status}</span>
+        <span class="k">schema_version</span><span class="v">${r.schema_version}</span>
+        <span class="k">component_type</span><span class="v">${r.component_type||'&mdash;'}</span>
+        <span class="k">detection_layer</span><span class="v">${r.detection_layer||'&mdash;'}</span>
+        <span class="k">detection_stage</span><span class="v">${r.detection_stage||'&mdash;'}</span>
+        <span class="k">confidence_baseline</span><span class="v">${r.confidence_baseline||'&mdash;'}</span>
+        <span class="k">published</span><span class="v">${r.published?r.published.split('T')[0]:'&mdash;'}</span>
+        <span class="k">researcher</span><span class="v">${r.researcher||'&mdash;'}</span>
+      </div></div>
+    </div>
+    ${(r.affected_platforms&&r.affected_platforms.length)?`<div class="block"><h3>Affected platforms &amp; registries</h3><div class="chips">${[...(r.affected_platforms||[]),...(r.affected_registries||[])].map(p=>'<span class="chip">'+p+'</span>').join('')}</div></div>`:''}
+
+    <div class="cite">
+      <div class="chead">
+        <h4>Cite this record</h4>
+        <button class="copy" id="citebtn">Copy</button>
+      </div>
+      <div class="ref" id="citeref">${r.ave_id}: ${r.title}. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. <span class="pl">https://ave.bawbel.io/${r.ave_id}</span></div>
+    </div>`;
+  // cite: copy canonical reference; also set a per-record permalink hash
+  const citeText = `${r.ave_id}: ${r.title}. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/${r.ave_id}`;
+  history.replaceState(null,'',`#${r.ave_id}`);
+  const cb = document.getElementById('citebtn');
+  if(cb){ cb.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(citeText).then(()=>{ cb.textContent='Copied'; cb.classList.add('done'); setTimeout(()=>{cb.textContent='Copy'; cb.classList.remove('done');},1600); }).catch(()=>{});
+  }); }
+  $('#overlay').classList.add('open');
+  const dr = $('#drawer'); dr.classList.add('open'); dr.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer(){
+  history.replaceState(null,'',location.pathname+location.search);
+  $('#overlay').classList.remove('open');
+  const dr = $('#drawer'); dr.classList.remove('open'); dr.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+}
+
+// events
+$('#q').addEventListener('input', render);
+$('#f-sev').addEventListener('change', render);
+$('#f-ac').addEventListener('change', render);
+$('#f-layer').addEventListener('change', render);
+$('#clear').addEventListener('click', ()=>{ $('#q').value=''; $('#f-sev').value=''; $('#f-ac').value=''; $('#f-layer').value=''; render(); });
+document.querySelectorAll('th[data-sort]').forEach(th=>{
+  th.addEventListener('click', ()=>{ const k=th.dataset.sort; if(sortKey===k) sortDir*=-1; else {sortKey=k; sortDir=1;} render(); });
+});
+$('#dclose').addEventListener('click', closeDrawer);
+$('#overlay').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
+const docLabels={schema:'Schema v1.1 reference',architecture:'AVE architecture (implementer guide)',crosswalk:'crosswalk tables',adopt:'\'Adopt AVE in your tool\' guide'};
+document.querySelectorAll('[data-doc]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); alert('Opens the '+(docLabels[a.dataset.doc]||a.dataset.doc)+' in the full site build.');}));
+
+render();
+// deep link: open a record if the URL points to one
+(function(){
+  const m = location.hash.match(/AVE-\d{4}-\d{5}/);
+  if(m){ const rec = RECORDS.find(r=>r.ave_id===m[0]); if(rec) openDrawer(rec); }
+})();
+</script>
+</body>
+</html>

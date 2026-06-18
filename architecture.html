@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture — AVE</title>
+<meta name="description" content="How an AVE record works: anatomy, the record/rule/fixture validation triangle, the declares-vs-assigns contract, and the SARIF emission convention for implementers.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0a3024">
+<link rel="canonical" href="https://ave.bawbel.io/architecture.html">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ave.bawbel.io/architecture.html">
+<meta property="og:title" content="Architecture — AVE">
+<meta property="og:description" content="How an AVE record works: anatomy, the record/rule/fixture validation triangle, the declares-vs-assigns contract, and the SARIF emission convention for implementers.">
+<meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:site_name" content="AVE — Agentic Vulnerability Enumeration">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@bawbel_io">
+<meta name="twitter:title" content="Architecture — AVE">
+<meta name="twitter:description" content="How an AVE record works: anatomy, the record/rule/fixture validation triangle, the declares-vs-assigns contract, and the SARIF emission convention for implementers.">
+<meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/ave-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AVE — Agentic Vulnerability Enumeration",
+  "url": "https://ave.bawbel.io",
+  "description": "The open behavioral vulnerability standard for AI agents.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bawbel",
+    "url": "https://bawbel.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ave.bawbel.io/ave-favicon-512.png",
+      "width": 512,
+      "height": 512
+    }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://ave.bawbel.io/registry.html?q={{search_term_string}}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 6 C28 6 36 13 38 22 C30 20 24 22 20 27 C16 22 10 20 2 22 C4 13 12 6 20 6 Z" fill="#d4a017"/>
+        <path d="M20 27 L20 36 M20 27 C18 30 16 32 14 33 M20 27 C22 30 24 32 26 33" stroke="#9ec3b2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="14.5" cy="17" r="1.6" fill="#0a3024"/><circle cx="25.5" cy="17" r="1.6" fill="#0a3024"/>
+      </svg>
+      <span>
+        <span class="wm">A<b>V</b>E</span>
+        <span class="sub">Agentic Vulnerability Enumeration</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="registry.html">Registry</a>
+      <a href="crosswalks.html">Crosswalks</a>
+      <a href="architecture.html" class="active">Architecture</a>
+      <a href="schema.html">Schema</a>
+      <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
+    </nav>
+  </div>
+</div>
+<header class="pagehead">
+  <div class="wrap">
+    <span class="pill">Architecture · implementer guide</span>
+    <h1>Architecture</h1>
+    <p>The structure of the standard itself &mdash; what any tool must honor to implement AVE correctly and stay consistent with every other implementation.</p>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="wrap">
+    <p class="lead">AVE is a standard, not software. Its &ldquo;architecture&rdquo; is the structure of the standard: the record schema, the record/rule/fixture validation triangle, the contract between a static record and a runtime finding, the framework mappings, and the SARIF emission convention. None of this describes any one product&rsquo;s internals &mdash; it describes what every implementer must honor.</p>
+
+    <h2>The standard at a glance</h2>
+    <figure>
+      <svg viewBox="0 0 920 560" role="img" aria-label="AVE high-level architecture" fill="#11201a">
+        <defs>
+          <marker id="ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#3d524a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- gap row -->
+        <rect class="b-gray d-box" x="40" y="40" width="380" height="104" rx="10"/>
+        <text class="t-title" x="62" y="70">Existing standards</text>
+        <text class="t-sub" x="62" y="94">CVE · CVSS · OSV</text>
+        <text class="t-sub" x="62" y="114">Map to package + version</text>
+        <text class="t-sub" x="62" y="134">Blind to agent behavior</text>
+
+        <rect class="b-amber d-box" x="500" y="40" width="380" height="104" rx="10"/>
+        <text class="t-title" x="522" y="70">Agent component threats</text>
+        <text class="t-sub" x="522" y="94">Prompt injection, toxic flows,</text>
+        <text class="t-sub" x="522" y="114">rug pulls, tool poisoning</text>
+        <text class="t-sub" x="522" y="134">No package. No version.</text>
+
+        <text class="t-tiny" x="460" y="175" text-anchor="middle">AVE fills the gap</text>
+        <path class="edge" d="M230 144 L320 196" marker-end="url(#ar1)"/>
+        <path class="edge" d="M690 144 L600 196" marker-end="url(#ar1)"/>
+
+        <!-- AVE hero -->
+        <rect class="b-teal-h d-box" x="150" y="200" width="620" height="96" rx="12"/>
+        <text class="t-title" x="460" y="234" text-anchor="middle" style="font-size:16px;">AVE — Agentic Vulnerability Enumeration</text>
+        <text class="t-sub" x="460" y="258" text-anchor="middle">Open, neutral, behavioral standard — the CVE for AI agents</text>
+        <text class="t-sub" x="460" y="278" text-anchor="middle">Stable IDs · AIVSS v0.8 scored · behavioral fingerprints</text>
+
+        <path class="edge" d="M250 296 L210 340" marker-end="url(#ar1)"/>
+        <path class="edge" d="M460 296 L460 340" marker-end="url(#ar1)"/>
+        <path class="edge" d="M670 296 L710 340" marker-end="url(#ar1)"/>
+
+        <!-- pillars -->
+        <rect class="b-teal d-box" x="40" y="344" width="260" height="112" rx="10"/>
+        <text class="t-title" x="62" y="372">Trusted frameworks</text>
+        <text class="t-sub" x="62" y="396">OWASP MCP Top 10</text>
+        <text class="t-sub" x="62" y="416">MITRE ATLAS</text>
+        <text class="t-sub" x="62" y="436">OWASP AIVSS v0.8</text>
+
+        <rect class="b-teal d-box" x="330" y="344" width="260" height="112" rx="10"/>
+        <text class="t-title" x="352" y="372">Scanner interop</text>
+        <text class="t-sub" x="352" y="396">Bawbel · SkillSpector</text>
+        <text class="t-sub" x="352" y="416">ClawScan · others</text>
+        <text class="t-sub" x="352" y="436">one shared vocabulary</text>
+
+        <rect class="b-teal d-box" x="620" y="344" width="260" height="112" rx="10"/>
+        <text class="t-title" x="642" y="372">Open governance</text>
+        <text class="t-sub" x="642" y="396">Apache 2.0</text>
+        <text class="t-sub" x="642" y="416">Path to OWASP project</text>
+        <text class="t-sub" x="642" y="436">No vendor lock-in</text>
+
+        <path class="edge" d="M170 456 L170 492" marker-end="url(#ar1)"/>
+        <path class="edge" d="M460 456 L460 492" marker-end="url(#ar1)"/>
+        <path class="edge" d="M750 456 L750 492" marker-end="url(#ar1)"/>
+
+        <!-- prize -->
+        <rect class="b-amber d-box" x="40" y="494" width="840" height="56" rx="10"/>
+        <text class="t-title" x="460" y="518" text-anchor="middle">The prize: findings from any tool interoperate</text>
+        <text class="t-sub" x="460" y="538" text-anchor="middle">One vocabulary the field shares — the CVE moment for AI agents</text>
+      </svg>
+      <figcaption>Problem → standard → why it wins → the prize</figcaption>
+    </figure>
+
+    <p>Conventional standards stop at the package: CVE identifies a flaw, OSV maps it to a version range. Agent component threats have no package and no version &mdash; the danger is behavioral. AVE assigns a stable id to each distinct behavioral vulnerability class, scores it with OWASP AIVSS v0.8, and maps it to the frameworks the field already uses. One record catches many textual variants of the same underlying attack.</p>
+
+    <div class="callout gold">
+      <span class="k">Why this matters for implementers</span>
+      <p>If two scanners read the same record and produce divergent results, the standard has failed at its one job. The architecture below exists so any implementation agrees with any other.</p>
+    </div>
+
+    <h2>How a record works</h2>
+    <figure>
+      <svg viewBox="0 0 920 730" role="img" aria-label="AVE detailed architecture" fill="#11201a">
+        <defs>
+          <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#3d524a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- record hero -->
+        <rect class="b-teal d-box" x="40" y="30" width="840" height="172" rx="12"/>
+        <text class="t-title" x="62" y="58">AVE record</text>
+        <text class="t-tiny" x="150" y="58">records/AVE-YYYY-NNNNN.json · validates against schema v1.1</text>
+        <line x1="460" y1="74" x2="460" y2="190" class="edge-dash"/>
+        <text class="t-sub" x="62" y="86" style="font-weight:600;fill:#0a4a3a;">Definition (static)</text>
+        <text class="t-sub" x="62" y="110">ave_id · attack_class</text>
+        <text class="t-sub" x="62" y="130">behavioral_fingerprint</text>
+        <text class="t-sub" x="62" y="150">severity · aivss{ }</text>
+        <text class="t-sub" x="62" y="170">owasp_mcp · mitre_atlas</text>
+        <text class="t-sub" x="62" y="190">remediation · iocs</text>
+        <text class="t-sub" x="488" y="86" style="font-weight:600;fill:#3a3392;">Evidence declarations (v1.1)</text>
+        <text class="t-sub" x="488" y="110">confidence_baseline</text>
+        <text class="t-sub" x="488" y="130">evidence_kind_default</text>
+        <text class="t-sub" x="488" y="150">detection_stage · detection_layer</text>
+        <text class="t-sub" x="488" y="170">evidence_basis_engines</text>
+        <text class="t-sub" x="488" y="190">derivable_into</text>
+
+        <!-- validation row -->
+        <text class="t-tiny" x="40" y="232" style="font-weight:600;">VALIDATION</text>
+        <rect class="b-gray d-box" x="40" y="242" width="230" height="56" rx="10"/>
+        <text class="t-title" x="62" y="266">Rule</text>
+        <text class="t-sub" x="62" y="286">pattern / yara / semgrep</text>
+        <rect class="b-gray d-box" x="345" y="242" width="245" height="56" rx="10"/>
+        <text class="t-title" x="367" y="266">Positive fixture</text>
+        <text class="t-sub" x="367" y="286">must trigger</text>
+        <rect class="b-gray d-box" x="635" y="242" width="245" height="56" rx="10"/>
+        <text class="t-title" x="657" y="266">Negative fixture</text>
+        <text class="t-sub" x="657" y="286">must NOT trigger</text>
+        <path class="edge" d="M150 202 L150 240" marker-end="url(#ar2)"/>
+        <text class="t-tiny" x="158" y="226">has a</text>
+        <path class="edge" d="M270 270 L343 270" marker-end="url(#ar2)"/>
+        <path class="edge" d="M590 276 L633 276" marker-end="url(#ar2)"/>
+
+        <!-- consumption -->
+        <text class="t-tiny" x="40" y="332" style="font-weight:600;">CONSUMPTION — the record DECLARES, the scanner ASSIGNS</text>
+        <rect class="b-purple d-box" x="40" y="344" width="840" height="186" rx="12"/>
+        <text class="t-sub" x="64" y="372" style="font-weight:600;fill:#3a3392;">Record DECLARES (static)</text>
+        <text class="t-sub" x="520" y="372" style="font-weight:600;fill:#0a4a3a;">Scanner ASSIGNS to Finding (runtime)</text>
+        <text class="t-sub" x="64" y="400">confidence_baseline</text><text class="t-sub" x="470" y="400">→</text><text class="t-sub" x="520" y="400">confidence (then FP-adjusted)</text>
+        <text class="t-sub" x="64" y="424">evidence_kind_default</text><text class="t-sub" x="470" y="424">→</text><text class="t-sub" x="520" y="424">evidence_kind</text>
+        <text class="t-sub" x="64" y="448">detection_stage</text><text class="t-sub" x="470" y="448">→</text><text class="t-sub" x="520" y="448">evidence_stage (floor)</text>
+        <text class="t-sub" x="64" y="472">evidence_basis_engines</text><text class="t-sub" x="470" y="472">→</text><text class="t-sub" x="520" y="472">evidence_basis</text>
+        <text class="t-sub" x="64" y="496">derivable_into</text><text class="t-sub" x="470" y="496">→</text><text class="t-sub" x="520" y="496">ToxicFlow.derived_from_findings</text>
+        <line x1="64" y1="510" x2="856" y2="510" class="edge-dash"/>
+        <text class="t-title" x="64" y="524" style="fill:#3a3392;">Finding: confidence ≠ aivss_score — separate fields, always</text>
+        <path class="edge" d="M270 202 L270 342" marker-end="url(#ar2)"/>
+        <text class="t-tiny" x="278" y="330">declares baselines</text>
+
+        <!-- outputs -->
+        <text class="t-tiny" x="40" y="562" style="font-weight:600;">OUTPUTS</text>
+        <rect class="b-green d-box" x="40" y="572" width="410" height="68" rx="10"/>
+        <text class="t-title" x="62" y="598">Finding → SARIF</text>
+        <text class="t-sub" x="62" y="618">ave_id in ruleId + taxonomies</text>
+        <text class="t-sub" x="62" y="634">→ GitHub Security tab / CI</text>
+        <rect class="b-purple d-box" x="470" y="572" width="410" height="68" rx="10"/>
+        <text class="t-title" x="492" y="598">Record set → PiranhaDB</text>
+        <text class="t-sub" x="492" y="618">→ api.piranha.bawbel.io</text>
+        <text class="t-sub" x="492" y="634">→ ave.bawbel.io</text>
+        <rect class="b-teal d-box" x="40" y="652" width="840" height="56" rx="10"/>
+        <text class="t-title" x="62" y="676">Crosswalks</text>
+        <text class="t-sub" x="62" y="696">SkillSpector and ClawScan finding types map to AVE ids — one vocabulary across scanners</text>
+        <path class="edge" d="M240 530 L240 570" marker-end="url(#ar2)"/>
+        <path class="edge" d="M680 530 L680 570" marker-end="url(#ar2)"/>
+      </svg>
+      <figcaption>anatomy → validation → consumption → output</figcaption>
+    </figure>
+
+    <h3>Anatomy</h3>
+    <p>A record has two halves. The <b>static definition</b> describes the vulnerability class and never changes per scan: <code>ave_id</code> (immutable), <code>attack_class</code>, <code>behavioral_fingerprint</code>, <code>severity</code>, <code>aivss</code>, and the framework mappings. The <b>evidence declarations</b> (added in v1.1) are optional and declare the defaults a scanner uses to assign per-finding metadata.</p>
+
+    <h3>Validation &mdash; the record/rule/fixture triangle</h3>
+    <p>Every record requires a detection <b>rule</b> (pattern, YARA, or Semgrep) that references the <code>ave_id</code>, a <b>positive fixture</b> that must trigger it, and a <b>negative fixture</b> &mdash; a benign lookalike that must not. A rule without a negative fixture is an incomplete false-positive guard.</p>
+
+    <h3>Consumption &mdash; the record declares, the scanner assigns</h3>
+    <p>This is the most important rule for implementers. A record is static; a finding is a runtime instance. Confidence belongs to the finding, never the record &mdash; the same class in a docs folder and in a live skill file deserves different confidence. So the record declares a <code>confidence_baseline</code> and the scanner does the per-detection math.</p>
+
+    <div class="tbl-wrap"><table class="ref">
+      <thead><tr><th>Record declares (static)</th><th>Scanner assigns to finding (runtime)</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">confidence_baseline</td><td class="mono">confidence (then FP-adjusted)</td></tr>
+        <tr><td class="mono">evidence_kind_default</td><td class="mono">evidence_kind</td></tr>
+        <tr><td class="mono">detection_stage</td><td class="mono">evidence_stage (floor)</td></tr>
+        <tr><td class="mono">evidence_basis_engines</td><td class="mono">evidence_basis</td></tr>
+        <tr><td class="mono">derivable_into</td><td class="mono">ToxicFlow.derived_from_findings</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout">
+      <span class="k">Core invariant</span>
+      <p>In any finding, <code>confidence</code> and <code>aivss_score</code> are separate fields and are never merged. AIVSS answers &ldquo;how bad would this be&rdquo;; confidence answers &ldquo;how sure are we.&rdquo; Putting baselines in the standard rather than in scanner code is what keeps two implementations consistent.</p>
+    </div>
+
+    <h2>Output &mdash; how AVE travels</h2>
+    <p>A scanner emits findings as <b>SARIF</b> with the <code>ave_id</code> in <code>ruleId</code> and under <code>taxonomies</code>, plus <code>aivss_score</code>, <code>confidence</code>, <code>owasp_mcp</code>, and <code>mitre_atlas</code> in the properties bag. Because SARIF is already consumed by the GitHub Security tab and CI, AVE ids reach those surfaces for free. The open record set can be consumed by any tool, and <a href="crosswalks.html">crosswalks</a> let other scanners&rsquo; finding types resolve to AVE ids.</p>
+
+    <div class="callout gold">
+      <span class="k">Build your own implementation</span>
+      <p>The schema, records, rules, and fixtures are all open under Apache 2.0. Honor the declares-vs-assigns contract and the SARIF convention, and your tool&rsquo;s findings will interoperate with every other AVE implementation. See the <a href="schema.html">schema reference</a> and the <a href="https://github.com/bawbel/ave">repository</a>.</p>
+    </div>
+  </div>
+</article>
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div class="lic">
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
+        <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/AVE-YYYY-NNNNN</span></p>
+      </div>
+      <div class="links">
+        <div>
+          <span class="h">Standard</span>
+          <a href="registry.html">Registry</a>
+          <a href="crosswalks.html">Crosswalks</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="schema.html">Schema v1.1</a>
+          <a href="https://github.com/bawbel/ave">GitHub repo</a>
+        </div>
+        <div>
+          <span class="h">Implementations</span>
+          <a href="https://github.com/bawbel/scanner">Bawbel scanner (reference)</a>
+          <a href="architecture.html">Build your own</a>
+        </div>
+      </div>
+    </div>
+    <div class="base">
+      <span>Sense. Protect. Secure. &mdash; ocean &amp; beyond</span>
+      <span>bawbel.io</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

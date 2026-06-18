@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <title>AVE — Agentic Vulnerability Enumeration</title>
+
+  <!-- stingray mark -->
+  <g transform="translate(8, 12)">
+    <!-- body -->
+    <path d="M28 6 C38 5 48 12 52 22 C44 19 37 21 28 27 C19 21 12 19 4 22 C8 12 18 5 28 6 Z"
+          fill="#d4a017"/>
+    <!-- tail -->
+    <path d="M28 27 L28 38" stroke="#9ec3b2" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- wing tips -->
+    <path d="M28 27 C24 31 20 33 17 34" stroke="#9ec3b2" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M28 27 C32 31 36 33 39 34" stroke="#9ec3b2" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <!-- eyes -->
+    <circle cx="21" cy="17" r="2.2" fill="#0a3024"/>
+    <circle cx="35" cy="17" r="2.2" fill="#0a3024"/>
+    <!-- eye glints -->
+    <circle cx="22" cy="16.2" r="0.7" fill="#ffffff" opacity="0.6"/>
+    <circle cx="36" cy="16.2" r="0.7" fill="#ffffff" opacity="0.6"/>
+  </g>
+
+  <!-- wordmark: AVE -->
+  <text x="72" y="46"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="700"
+        font-size="42"
+        letter-spacing="3"
+        fill="#0a3024">A</text>
+  <text x="104" y="46"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="700"
+        font-size="42"
+        letter-spacing="3"
+        fill="#d4a017">V</text>
+  <text x="135" y="46"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="700"
+        font-size="42"
+        letter-spacing="3"
+        fill="#0a3024">E</text>
+
+  <!-- tagline -->
+  <text x="72" y="64"
+        font-family="'Courier New', 'Lucida Console', monospace"
+        font-size="10"
+        letter-spacing="2.5"
+        fill="#2e6e50">AGENTIC VULNERABILITY ENUMERATION</text>
+</svg>

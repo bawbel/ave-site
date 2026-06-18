@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Schema v1.0.0 — AVE</title>
+<meta name="description" content="Complete AVE record schema reference. Every field, type, required or optional status, and meaning. Includes the AIVSS v0.8 object, AARF factors, and scanner evidence declarations.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0a3024">
+<link rel="canonical" href="https://ave.bawbel.io/schema.html">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ave.bawbel.io/schema.html">
+<meta property="og:title" content="Schema v1.0.0 — AVE">
+<meta property="og:description" content="Complete AVE record schema reference. Every field, type, required or optional status, and meaning. Includes the AIVSS v0.8 object, AARF factors, and scanner evidence declarations.">
+<meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:site_name" content="AVE — Agentic Vulnerability Enumeration">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@bawbel_io">
+<meta name="twitter:title" content="Schema v1.0.0 — AVE">
+<meta name="twitter:description" content="Complete AVE record schema reference. Every field, type, required or optional status, and meaning. Includes the AIVSS v0.8 object, AARF factors, and scanner evidence declarations.">
+<meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/ave-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AVE — Agentic Vulnerability Enumeration",
+  "url": "https://ave.bawbel.io",
+  "description": "The open behavioral vulnerability standard for AI agents.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bawbel",
+    "url": "https://bawbel.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ave.bawbel.io/ave-favicon-512.png",
+      "width": 512,
+      "height": 512
+    }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://ave.bawbel.io/registry.html?q={{search_term_string}}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 6 C28 6 36 13 38 22 C30 20 24 22 20 27 C16 22 10 20 2 22 C4 13 12 6 20 6 Z" fill="#d4a017"/>
+        <path d="M20 27 L20 36 M20 27 C18 30 16 32 14 33 M20 27 C22 30 24 32 26 33" stroke="#9ec3b2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="14.5" cy="17" r="1.6" fill="#0a3024"/><circle cx="25.5" cy="17" r="1.6" fill="#0a3024"/>
+      </svg>
+      <span>
+        <span class="wm">A<b>V</b>E</span>
+        <span class="sub">Agentic Vulnerability Enumeration</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="registry.html">Registry</a>
+      <a href="crosswalks.html">Crosswalks</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="schema.html" class="active">Schema</a>
+      <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
+    </nav>
+  </div>
+</div>
+<header class="pagehead">
+  <div class="wrap">
+    <span class="pill">Schema v1.0.0</span>
+    <h1>Record schema</h1>
+    <p>Every field in an AVE record &mdash; type, required or optional, and meaning. Records validate against <code>schema/ave-record.schema.json</code>. Schema sets <code>additionalProperties: false</code>.</p>
+  </div>
+</header>
+<article class="doc"><div class="wrap">
+
+  <h2>Identity &amp; description</h2>
+  <div class="tbl-wrap"><table class="ref"><thead><tr><th>Field</th><th>Type</th><th></th><th>Description</th></tr></thead><tbody><tr><td class="mono">ave_id</td><td class="mono">string</td><td><span class="req y">required</span></td><td>Unique identifier. Format AVE-YYYY-NNNNN. Immutable once published &mdash; deprecated via status, never renumbered or deleted.</td></tr><tr><td class="mono">schema_version</td><td class="mono">string</td><td><span class="req y">required</span></td><td>Schema version, e.g. 1.0.0.</td></tr><tr><td class="mono">status</td><td class="mono">enum</td><td><span class="req y">required</span></td><td>active | deprecated | draft.</td></tr><tr><td class="mono">published</td><td class="mono">date-time</td><td><span class="req y">required</span></td><td>ISO 8601 datetime of first publication.</td></tr><tr><td class="mono">last_updated</td><td class="mono">date-time</td><td><span class="req n">optional</span></td><td>ISO 8601 datetime of most recent update.</td></tr><tr><td class="mono">title</td><td class="mono">string</td><td><span class="req y">required</span></td><td>Human-readable title, max 120 chars.</td></tr><tr><td class="mono">attack_class</td><td class="mono">string</td><td><span class="req y">required</span></td><td>Behavioral category, e.g. external_instruction_fetch. Not a vulnerability_type string.</td></tr><tr><td class="mono">component_type</td><td class="mono">enum</td><td><span class="req n">optional</span></td><td>skill | mcp_server | plugin | agent | tool | other.</td></tr><tr><td class="mono">description</td><td class="mono">string</td><td><span class="req y">required</span></td><td>Full description of the vulnerability class.</td></tr><tr><td class="mono">behavioral_fingerprint</td><td class="mono">string</td><td><span class="req y">required</span></td><td>What the component DOES that is dangerous. Behavioral, not a byte signature.</td></tr><tr><td class="mono">behavioral_vector</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>Tags summarising the attack path, e.g. supply-chain, external-fetch.</td></tr><tr><td class="mono">severity</td><td class="mono">enum</td><td><span class="req y">required</span></td><td>CRITICAL | HIGH | MEDIUM | LOW. CRITICAL implies aivss.aivss_score &ge; 9.0.</td></tr><tr><td class="mono">aivss_score</td><td class="mono">number</td><td><span class="req n">optional</span></td><td>Top-level shortcut to aivss.aivss_score (0&ndash;10). Mirrors the nested value.</td></tr><tr><td class="mono">cvss_base_vector</td><td class="mono">string</td><td><span class="req n">optional</span></td><td>CVSS 4.0 base vector string.</td></tr><tr><td class="mono">mutation_count</td><td class="mono">integer</td><td><span class="req n">optional</span></td><td>Number of distinct real-world mutations observed.</td></tr></tbody></table></div>
+
+  <h2>Framework mappings</h2>
+  <p><strong>owasp_mcp</strong> is required &mdash; every record needs at least one OWASP MCP anchor. The other three framework fields are optional but strongly recommended when applicable. Add <strong>owasp_mapping</strong> when the class maps to the Agentic AI Top 10. Add <strong>mitre_atlas_mapping</strong> when an ATLAS technique applies. Add <strong>nist_ai_rmf_mapping</strong> when relevant. A record without any ATLAS or NIST mapping is still valid; a record without OWASP MCP is not.</p>
+  <div class="tbl-wrap"><table class="ref"><thead><tr><th>Field</th><th>Type</th><th></th><th>Description</th></tr></thead><tbody><tr><td class="mono">owasp_mcp</td><td class="mono">string[]</td><td><span class="req y">required</span></td><td>OWASP MCP Top 10. Format: MCPNN. <strong>Required</strong> &mdash; provides core OWASP grounding. &ge;1.</td></tr><tr><td class="mono">owasp_mapping</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>OWASP Agentic AI Top 10. Format: ASINN. <strong>Optional</strong> &mdash; add when the class maps to the Agentic Top 10.</td></tr><tr><td class="mono">mitre_atlas_mapping</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>MITRE ATLAS technique IDs. Format: AML.Txxxx. <strong>Optional</strong> &mdash; add when an ATLAS technique applies. Omit if none exists yet.</td></tr><tr><td class="mono">nist_ai_rmf_mapping</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>NIST AI RMF mappings, e.g. MAP-1.5. <strong>Optional</strong>.</td></tr><tr><td class="mono">affected_platforms</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>Agent platforms known to be affected. <strong>Optional</strong> &mdash; fill as evidence accumulates.</td></tr><tr><td class="mono">affected_registries</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>Skill/tool registries where this class has been observed. <strong>Optional</strong>.</td></tr></tbody></table></div>
+
+  <h2>Detection &amp; remediation</h2>
+  <p><strong>indicators_of_compromise</strong> is required with at least one entry. A record with no IOCs gives defenders nothing actionable to act on. <strong>affected_platforms</strong> and <strong>affected_registries</strong> are optional &mdash; they grow over time as the class is observed in the wild, so records can be published before all affected surfaces are known.</p>
+  <div class="tbl-wrap"><table class="ref"><thead><tr><th>Field</th><th>Type</th><th></th><th>Description</th></tr></thead><tbody><tr><td class="mono">indicators_of_compromise</td><td class="mono">string[]</td><td><span class="req y">required</span></td><td>Observable IOC strings. <strong>Required</strong> &mdash; at least one. Defenders need something actionable.</td></tr><tr><td class="mono">detection_methodology</td><td class="mono">string</td><td><span class="req n">optional</span></td><td>Step-by-step detection approach (static, semantic, sandbox). Optional.</td></tr><tr><td class="mono">remediation</td><td class="mono">string</td><td><span class="req y">required</span></td><td>How to mitigate or prevent the class.</td></tr><tr><td class="mono">kill_switch_active</td><td class="mono">boolean</td><td><span class="req n">optional</span></td><td>Whether a registry kill switch is active. Optional.</td></tr></tbody></table></div>
+
+  <h2>Provenance</h2>
+  <p><strong>references</strong> and <strong>researcher</strong> are both required. Every record must trace to a citable source and must be attributable to a person or team. These are the two fields a skeptic checks first.</p>
+  <div class="tbl-wrap"><table class="ref"><thead><tr><th>Field</th><th>Type</th><th></th><th>Description</th></tr></thead><tbody><tr><td class="mono">references</td><td class="mono">array</td><td><span class="req y">required</span></td><td>Primary sources: CVEs, papers, disclosures. <strong>Required</strong> &ge;1. Each item: URI string or {tag, text, url} object.</td></tr><tr><td class="mono">researcher</td><td class="mono">string</td><td><span class="req y">required</span></td><td>Name of the researcher or team. <strong>Required</strong> &mdash; records must be attributable.</td></tr><tr><td class="mono">researcher_url</td><td class="mono">uri</td><td><span class="req n">optional</span></td><td>URL for the researcher or team. Optional.</td></tr></tbody></table></div>
+
+  <h2>The <code>aivss</code> object &mdash; OWASP AIVSS v0.8</h2>
+  <p>The <code>aarf</code> block records 10 agentic amplification factors that distinguish AIVSS from plain CVSS. Required sub-fields: cvss_base, aars, thm, mitigation_factor, aivss_score, spec_version.</p>
+  <div class="tbl-wrap"><table class="ref"><thead><tr><th>Field</th><th>Type</th><th></th><th>Description</th></tr></thead><tbody><tr><td class="mono">cvss_base</td><td class="mono">number</td><td><span class="req y">required</span></td><td>0&ndash;10.</td></tr><tr><td class="mono">aarf</td><td class="mono">object</td><td><span class="req n">optional</span></td><td>10 agentic amplification factors (0&ndash;1 each): autonomy, tool_use, multi_agent, non_determinism, self_modification, dynamic_identity, persistent_memory, natural_language_input, data_access, external_dependencies.</td></tr><tr><td class="mono">aars</td><td class="mono">number</td><td><span class="req y">required</span></td><td>Agentic Amplification &amp; Reachability Score (0&ndash;10).</td></tr><tr><td class="mono">thm</td><td class="mono">number</td><td><span class="req y">required</span></td><td>Threat &amp; Heuristic Multiplier (0.5&ndash;1.5).</td></tr><tr><td class="mono">mitigation_factor</td><td class="mono">number</td><td><span class="req y">required</span></td><td>0&ndash;1.</td></tr><tr><td class="mono">aivss_score</td><td class="mono">number</td><td><span class="req y">required</span></td><td>Final composed score (0&ndash;10).</td></tr><tr><td class="mono">aivss_severity</td><td class="mono">enum</td><td><span class="req n">optional</span></td><td>CRITICAL | HIGH | MEDIUM | LOW.</td></tr><tr><td class="mono">spec_version</td><td class="mono">const</td><td><span class="req y">required</span></td><td>Always &ldquo;0.8&rdquo;.</td></tr><tr><td class="mono">owasp_mcp_mapping</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>MCP Top 10 cross-reference inside the AIVSS object.</td></tr><tr><td class="mono">notes</td><td class="mono">string</td><td><span class="req n">optional</span></td><td>Free-text scoring rationale.</td></tr></tbody></table></div>
+
+  <h2>Scanner evidence declarations (optional)</h2>
+  <p>Scanner-facing defaults. The record declares baselines; the scanner assigns per-finding actuals. Never carry per-detection values like confidence in a record. See <a href="architecture.html">architecture</a> for the declares-vs-assigns contract.</p>
+  <div class="tbl-wrap"><table class="ref"><thead><tr><th>Field</th><th>Type</th><th></th><th>Description</th></tr></thead><tbody><tr><td class="mono">evidence_kind_default</td><td class="mono">enum</td><td><span class="req n">optional</span></td><td>tool_description_pattern | config_schema | file_type_mismatch | behavioral_pattern | semantic_inference | multi_engine.</td></tr><tr><td class="mono">detection_stage</td><td class="mono">enum</td><td><span class="req n">optional</span></td><td>static_detection | runtime_observed | runtime_drift_detected.</td></tr><tr><td class="mono">detection_layer</td><td class="mono">enum</td><td><span class="req n">optional</span></td><td>content | server_card | registry_metadata | runtime | transport.</td></tr><tr><td class="mono">confidence_baseline</td><td class="mono">number</td><td><span class="req n">optional</span></td><td>0&ndash;1. Base confidence before FP pipeline adjustment.</td></tr><tr><td class="mono">evidence_basis_engines</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>pattern | yara | semgrep | llm | sandbox | magika.</td></tr><tr><td class="mono">derivable_into</td><td class="mono">string[]</td><td><span class="req n">optional</span></td><td>Toxic-flow chain IDs this class participates in.</td></tr></tbody></table></div>
+
+  <div class="callout">
+    <span class="k">Never in a record</span>
+    <p>Per-detection runtime values belong only on the scanner finding: confidence, confidence_band, actual evidence_stage, confidence_reason, derived, line, match, suppressed.</p>
+  </div>
+
+  <h2>15 required fields</h2>
+  <div class="codeblock"><span class="g">ave_id &middot; schema_version &middot; status &middot; published
+title &middot; description &middot; attack_class &middot; severity &middot; behavioral_fingerprint
+aivss &middot; owasp_mcp
+indicators_of_compromise &middot; remediation
+references &middot; researcher</span></div>
+
+  <h2>Example record</h2>
+  <div class="codeblock">{
+  <span class="g">"ave_id"</span>: "AVE-2026-00001",
+  <span class="g">"schema_version"</span>: "1.0.0",
+  <span class="g">"status"</span>: "active",
+  <span class="g">"published"</span>: "2026-04-01T09:00:00Z",
+  <span class="g">"title"</span>: "Metamorphic payload via external config fetch",
+  <span class="g">"attack_class"</span>: "Supply Chain - Metamorphic Payload",
+  <span class="g">"component_type"</span>: "skill",
+  <span class="g">"severity"</span>: "HIGH",
+  <span class="g">"description"</span>: "A skill fetches instructions from an external URL at runtime...",
+  <span class="g">"behavioral_fingerprint"</span>: "Component fetches and executes remote content, replacing its own instructions at runtime.",
+  <span class="g">"behavioral_vector"</span>: ["supply-chain", "external-fetch", "metamorphic"],
+  <span class="g">"aivss_score"</span>: 8.0,
+  <span class="g">"owasp_mcp"</span>: ["MCP04", "MCP06"],
+  <span class="c">// optional but strongly recommended</span>
+  <span class="g">"owasp_mapping"</span>: ["ASI01", "ASI04"],
+  <span class="g">"mitre_atlas_mapping"</span>: ["AML.T0011", "AML.T0054"],
+  <span class="g">"nist_ai_rmf_mapping"</span>: ["MAP-1.5", "MEASURE-2.5"],
+  <span class="g">"affected_platforms"</span>: ["claude-code", "cursor", "windsurf"],
+  <span class="g">"affected_registries"</span>: ["smithery.ai", "clawhub.io"],
+  <span class="g">"indicators_of_compromise"</span>: [
+    "Component contains fetch() pointing to an external URL",
+    "Network egress to unexpected domain during initialization"
+  ],
+  <span class="g">"detection_methodology"</span>: "1. Static scan. 2. Semantic analysis. 3. Behavioral sandbox.",
+  <span class="g">"remediation"</span>: "Remove component. Block network egress. Audit agent actions.",
+  <span class="g">"aivss"</span>: {
+    "cvss_base": 8.5, "aars": 7.5, "thm": 1.0,
+    "mitigation_factor": 1.0, "aivss_score": 8.0, "aivss_severity": "HIGH",
+    "spec_version": "0.8",
+    "aarf": { "autonomy": 1.0, "tool_use": 1.0, "self_modification": 1.0,
+              "external_dependencies": 1.0, ... }
+  },
+  <span class="g">"references"</span>: [{"tag": "Disclosure", "text": "Invariant Labs blog", "url": "https://..."}],
+  <span class="g">"researcher"</span>: "Bawbel Security Research Team",
+  <span class="g">"researcher_url"</span>: "https://bawbel.io",
+  <span class="c">// scanner evidence declarations (optional)</span>
+  <span class="g">"confidence_baseline"</span>: 0.85,
+  <span class="g">"detection_stage"</span>: "static_detection",
+  <span class="g">"detection_layer"</span>: "content",
+  <span class="g">"evidence_basis_engines"</span>: ["pattern", "semgrep", "yara"]
+}</div>
+  <p style="margin-top:20px;">Canonical schema: <a href="https://github.com/bawbel/ave/blob/main/schema/ave-record.schema.json">schema/ave-record.schema.json</a></p>
+</div></article>
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div class="lic">
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
+        <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/AVE-YYYY-NNNNN</span></p>
+      </div>
+      <div class="links">
+        <div>
+          <span class="h">Standard</span>
+          <a href="registry.html">Registry</a>
+          <a href="crosswalks.html">Crosswalks</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="schema.html">Schema v1.1</a>
+          <a href="https://github.com/bawbel/ave">GitHub repo</a>
+        </div>
+        <div>
+          <span class="h">Implementations</span>
+          <a href="https://github.com/bawbel/scanner">Bawbel scanner (reference)</a>
+          <a href="architecture.html">Build your own</a>
+        </div>
+      </div>
+    </div>
+    <div class="base">
+      <span>Sense. Protect. Secure. &mdash; ocean &amp; beyond</span>
+      <span>bawbel.io</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

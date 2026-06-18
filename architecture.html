@@ -176,6 +176,75 @@
       <p>If two scanners read the same record and produce divergent results, the standard has failed at its one job. The architecture below exists so any implementation agrees with any other.</p>
     </div>
 
+    <h2>The five detection layers</h2>
+
+    <p>Every AVE record declares a <code>detection_layer</code> — where in the agent ecosystem the vulnerability class surfaces. This determines what kind of scanner or monitoring can detect it. Two scanners that implement the same AVE record correctly will agree on the layer; this is part of the implementer contract.</p>
+
+    <div class="tbl-wrap" style="margin:20px 0;">
+      <table class="ref" id="layers-table">
+        <thead>
+          <tr>
+            <th style="width:130px">Layer</th>
+            <th>Where evidence lives</th>
+            <th>Scanner that reaches it</th>
+            <th style="width:80px;text-align:center">Records</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span style="display:inline-block;background:var(--low-bg);border:2px solid var(--brand);border-radius:8px;padding:4px 10px;font-family:var(--mono);font-size:13px;font-weight:600;color:#0f6e56">content</span>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:4px">static_detection</div>
+            </td>
+            <td>Text body of the skill file, prompt file, or MCP tool description field</td>
+            <td><code>bawbel scan ./skill.md</code></td>
+            <td style="text-align:center;font-size:20px;font-weight:700;color:#0f6e56"><span data-layer-count="content">—</span><span style="font-size:12px;font-weight:400;color:var(--ink-3)"> / <span data-layer-total></span></span></td>
+          </tr>
+          <tr>
+            <td>
+              <span style="display:inline-block;background:var(--low-bg);border:1.5px solid var(--mid);border-radius:8px;padding:4px 10px;font-family:var(--mono);font-size:13px;font-weight:600">server_card</span>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:4px">static_detection</div>
+            </td>
+            <td>MCP server manifest (<code>.well-known/mcp.json</code>), tool schemas, parameter descriptions</td>
+            <td><code>bawbel scan-server-card &lt;url&gt;</code></td>
+            <td style="text-align:center;font-size:20px;font-weight:700"><span data-layer-count="server_card">—</span><span style="font-size:12px;font-weight:400;color:var(--ink-3)"> / <span data-layer-total></span></span></td>
+          </tr>
+          <tr>
+            <td>
+              <span style="display:inline-block;background:var(--low-bg);border:1.5px solid var(--mid);border-radius:8px;padding:4px 10px;font-family:var(--mono);font-size:13px;font-weight:600">registry_<br>metadata</span>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:4px">static_detection</div>
+            </td>
+            <td>Registry listing — server name, publisher, description on smithery.ai or the official MCP registry</td>
+            <td>Registry audit before install</td>
+            <td style="text-align:center;font-size:20px;font-weight:700"><span data-layer-count="registry_metadata">—</span><span style="font-size:12px;font-weight:400;color:var(--ink-3)"> / <span data-layer-total></span></span></td>
+          </tr>
+          <tr style="background:#fff9ee">
+            <td>
+              <span style="display:inline-block;background:var(--gold-bg);border:1.5px solid #c98a3a;border-radius:8px;padding:4px 10px;font-family:var(--mono);font-size:13px;font-weight:600;color:#c98a3a">runtime</span>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:4px">runtime_observed</div>
+            </td>
+            <td>Tool results, memory writes, A2A messages, rendered UI payloads, async task results, image pixels</td>
+            <td>Behavioral sandbox or runtime monitor<br><span style="color:#c98a3a;font-size:12px">no static scanner reaches this</span></td>
+            <td style="text-align:center;font-size:20px;font-weight:700;color:#c98a3a"><span data-layer-count="runtime">—</span><span style="font-size:12px;font-weight:400;color:var(--ink-3)"> / <span data-layer-total></span></span></td>
+          </tr>
+          <tr>
+            <td>
+              <span style="display:inline-block;background:var(--gold-bg);border:1.5px solid #c98a3a;border-radius:8px;padding:4px 10px;font-family:var(--mono);font-size:13px;font-weight:600">transport</span>
+            </td>
+            <td>HTTP headers, OAuth discovery endpoints, DNS responses, webhook destinations</td>
+            <td>Network proxy or monitor</td>
+            <td style="text-align:center;font-size:20px;font-weight:700;color:var(--ink-3)"><span data-layer-count="transport">—</span><span style="font-size:12px;font-weight:400;color:var(--ink-3)"> / <span data-layer-total></span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+
+      <span class="k">Why runtime records are the hardest to defend</span>
+      <p>12 records are at the <code>runtime</code> layer — RAG injection, tool result manipulation, memory poisoning, A2A injection, context flooding, vision injection, REPL code mode, and async task poisoning. A static scanner cannot catch these because the malicious payload only exists during a live session. They require either a behavioral sandbox (run the agent and observe) or runtime monitoring (proxy tool results, audit memory writes). This is the gap bawbel-scanner v1.1+ will address with runtime analysis.</p>
+    </div>
+
     <h2>How a record works</h2>
     <figure>
       <svg viewBox="0 0 920 730" role="img" aria-label="AVE detailed architecture" fill="#11201a">
@@ -220,7 +289,8 @@
         <path class="edge" stroke="#3d524a" stroke-width="1.5" fill="none" d="M590 276 L633 276" marker-end="url(#ar2)"/>
 
         <!-- consumption -->
-        <text class="t-tiny" x="40" y="332" style="font-weight:600;">CONSUMPTION — the record DECLARES, the scanner ASSIGNS</text>
+        <text class="t-tiny" x="40" y="316" style="font-weight:600;">CONSUMPTION</text>
+        <text class="t-tiny" x="40" y="330" style="font-size:10px;">the record DECLARES, the scanner ASSIGNS</text>
         <rect class="b-purple d-box" x="40" y="344" width="840" height="186" rx="12"/>
         <text class="t-sub" x="64" y="372" style="font-weight:600;fill:#3a3392;">Record DECLARES (static)</text>
         <text class="t-sub" x="520" y="372" style="font-weight:600;fill:#0a4a3a;">Scanner ASSIGNS to Finding (runtime)</text>
@@ -232,7 +302,7 @@
         <line x1="64" y1="510" x2="856" y2="510" stroke="#5d6f66" stroke-width="1" stroke-dasharray="3 3"/>
         <text class="t-title" x="64" y="524" style="fill:#3a3392;">Finding: confidence ≠ aivss_score — separate fields, always</text>
         <path class="edge" stroke="#3d524a" stroke-width="1.5" fill="none" d="M270 202 L270 342" marker-end="url(#ar2)"/>
-        <text class="t-tiny" x="278" y="330">declares baselines</text>
+        <text class="t-tiny" x="278" y="338">declares baselines</text>
 
         <!-- outputs -->
         <text class="t-tiny" x="40" y="562" style="font-weight:600;">OUTPUTS</text>
@@ -318,5 +388,34 @@
   </div>
 </footer>
 
+<script src="records.js"></script>
+<script>
+(function () {
+  function fillLayerCounts() {
+    if (!window.RECORDS || !window.RECORDS.length) return;
+    var total   = window.RECORDS.length;
+    var counts  = {};
+    window.RECORDS.forEach(function (r) {
+      var layer = r.detection_layer || "content";
+      counts[layer] = (counts[layer] || 0) + 1;
+    });
+    // fill total spans
+    document.querySelectorAll("[data-layer-total]").forEach(function (el) {
+      el.textContent = total;
+    });
+    // fill per-layer spans
+    document.querySelectorAll("[data-layer-count]").forEach(function (el) {
+      var layer = el.getAttribute("data-layer-count");
+      el.textContent = counts[layer] || 0;
+    });
+  }
+  // records.js may load before or after this script
+  if (window.RECORDS) {
+    fillLayerCounts();
+  } else {
+    window.addEventListener("load", fillLayerCounts);
+  }
+})();
+</script>
 </body>
 </html>

@@ -236,7 +236,7 @@
 .pagehead p { font-size: 17px; color: #cfe3d8; max-width: 720px; margin: 0; }
 
 /* landing cards */
-.routes { padding: 48px 0 10px; }
+.routes { padding: 48px 0 48px; }
 .routes .grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
 .route { display: block; text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; transition: border-color .15s, transform .15s; }
 .route:hover { border-color: var(--mid); transform: translateY(-2px); }

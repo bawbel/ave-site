@@ -1,0 +1,104 @@
+name: Build and deploy ave.bawbel.io
+
+on:
+  # Deploy when the site itself changes
+  push:
+    branches: [main]
+
+  # Deploy when bawbel/ave publishes new records
+  # bawbel/ave triggers this via repository_dispatch on push to main
+  repository_dispatch:
+    types: [ave-records-updated]
+
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+    inputs:
+      include_drafts:
+        description: Include draft records in the build
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; cancel in-progress if a newer run starts
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ave-site
+        uses: actions/checkout@v4
+        with:
+          path: ave-site
+
+      - name: Checkout bawbel/ave (records source)
+        uses: actions/checkout@v4
+        with:
+          repository: bawbel/ave
+          path: ave
+          # If bawbel/ave is private, add:
+          # token: ${{ secrets.AVE_REPO_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ave-site/package-lock.json
+
+      - name: Install build dependencies
+        working-directory: ave-site
+        run: npm ci
+
+      - name: Build records.js from bawbel/ave
+        working-directory: ave-site
+        run: |
+          DRAFTS_FLAG=""
+          if [ "${{ github.event.inputs.include_drafts }}" = "true" ]; then
+            DRAFTS_FLAG="--include-drafts"
+          fi
+          node scripts/build-records.js \
+            --records-dir ../ave/records \
+            --schema      ../ave/schema/ave-record.schema.json \
+            --out         records.js \
+            $DRAFTS_FLAG
+
+      - name: Print build summary
+        working-directory: ave-site
+        run: |
+          RECORD_COUNT=$(node -e "const r=require('./records.js'); console.log(r.length)" 2>/dev/null || echo "unknown")
+          echo "## Build summary" >> $GITHUB_STEP_SUMMARY
+          echo "| | |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| Records built | $RECORD_COUNT |" >> $GITHUB_STEP_SUMMARY
+          echo "| Triggered by | ${{ github.event_name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Ave records ref | $(cd ../ave && git rev-parse --short HEAD) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Site ref | $(cd ../ave-site && git rev-parse --short HEAD) |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ave-site
+          # exclude node_modules and scripts from the deployed site
+          # (GitHub Pages artifact uses the directory as-is)
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

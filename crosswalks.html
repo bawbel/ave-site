@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crosswalks — AVE</title>
+<meta name="description" content="How SkillSpector, ClawScan, and other scanners map to AVE ids. How AVE records map to OWASP MCP Top 10, OWASP Agentic Top 10, and MITRE ATLAS.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0a3024">
+<link rel="canonical" href="https://ave.bawbel.io/crosswalks.html">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ave.bawbel.io/crosswalks.html">
+<meta property="og:title" content="Crosswalks — AVE">
+<meta property="og:description" content="How SkillSpector, ClawScan, and other scanners map to AVE ids. How AVE records map to OWASP MCP Top 10, OWASP Agentic Top 10, and MITRE ATLAS.">
+<meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:site_name" content="AVE — Agentic Vulnerability Enumeration">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@bawbel_io">
+<meta name="twitter:title" content="Crosswalks — AVE">
+<meta name="twitter:description" content="How SkillSpector, ClawScan, and other scanners map to AVE ids. How AVE records map to OWASP MCP Top 10, OWASP Agentic Top 10, and MITRE ATLAS.">
+<meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/ave-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AVE — Agentic Vulnerability Enumeration",
+  "url": "https://ave.bawbel.io",
+  "description": "The open behavioral vulnerability standard for AI agents.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bawbel",
+    "url": "https://bawbel.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ave.bawbel.io/ave-favicon-512.png",
+      "width": 512,
+      "height": 512
+    }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://ave.bawbel.io/registry.html?q={{search_term_string}}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 6 C28 6 36 13 38 22 C30 20 24 22 20 27 C16 22 10 20 2 22 C4 13 12 6 20 6 Z" fill="#d4a017"/>
+        <path d="M20 27 L20 36 M20 27 C18 30 16 32 14 33 M20 27 C22 30 24 32 26 33" stroke="#9ec3b2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="14.5" cy="17" r="1.6" fill="#0a3024"/><circle cx="25.5" cy="17" r="1.6" fill="#0a3024"/>
+      </svg>
+      <span>
+        <span class="wm">A<b>V</b>E</span>
+        <span class="sub">Agentic Vulnerability Enumeration</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="registry.html">Registry</a>
+      <a href="crosswalks.html" class="active">Crosswalks</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="schema.html">Schema</a>
+      <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
+    </nav>
+  </div>
+</div>
+<header class="pagehead">
+  <div class="wrap">
+    <span class="pill">Crosswalks</span>
+    <h1>Crosswalks</h1>
+    <p>The field has many scanners and no shared vocabulary &mdash; independent studies find different tools barely agree on what they flag. AVE is the neutral reference they can all map to. These crosswalks let findings from any tool resolve to a common AVE id, so results become comparable across the ecosystem.</p>
+  </div>
+</header>
+
+<section class="xw-section">
+  <div class="wrap">
+    <h2>SkillSpector &rarr; AVE</h2>
+    <p class="note">NVIDIA SkillSpector organizes detection as 16 categories across 64 patterns. Each category maps to one or more AVE behavioral classes. Gaps marked &ldquo;&mdash;&rdquo; are categories with no distinct AVE class (or scanner-internal mechanics, not a vulnerability class).</p>
+    <div class="tbl-wrap"><table class="ref">
+      <thead><tr><th>SkillSpector category</th><th>AVE id(s)</th></tr></thead>
+      <tbody>
+      <tr><td class="mono">prompt injection</td><td><span class="aveid">AVE-2026-00002, AVE-2026-00013</span></td></tr>
+<tr><td class="mono">data exfiltration</td><td><span class="aveid">AVE-2026-00026</span></td></tr>
+<tr><td class="mono">privilege escalation</td><td><span class="aveid">AVE-2026-00045</span></td></tr>
+<tr><td class="mono">supply chain</td><td><span class="aveid">AVE-2026-00042</span></td></tr>
+<tr><td class="mono">excessive agency</td><td><span class="aveid">AVE-2026-00011, AVE-2026-00048</span></td></tr>
+<tr><td class="mono">output handling</td><td><span class="aveid">AVE-2026-00026</span></td></tr>
+<tr><td class="mono">system prompt leakage</td><td><span class="aveid">AVE-2026-00013</span></td></tr>
+<tr><td class="mono">memory poisoning</td><td><span class="aveid">AVE-2026-00013</span></td></tr>
+<tr><td class="mono">tool misuse</td><td><span class="aveid">AVE-2026-00045</span></td></tr>
+<tr><td class="mono">rogue agent</td><td><span class="aveid">AVE-2026-00048</span></td></tr>
+<tr><td class="mono">trigger abuse</td><td><span class="aveid">AVE-2026-00001</span></td></tr>
+<tr><td class="mono">dangerous code (AST)</td><td><span class="aveid">AVE-2026-00024</span></td></tr>
+<tr><td class="mono">taint tracking</td><td><span class="aveid">AVE-2026-00050</span></td></tr>
+<tr><td class="mono">YARA signatures</td><td><span class="aveid">— (engine, not a class)</span></td></tr>
+<tr><td class="mono">MCP least privilege</td><td><span class="aveid">AVE-2026-00011</span></td></tr>
+<tr><td class="mono">MCP tool poisoning</td><td><span class="aveid">AVE-2026-00002, AVE-2026-00045</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="xw-section" style="padding-top:0;">
+  <div class="wrap">
+    <h2>ClawScan &rarr; AVE</h2>
+    <p class="note">ClawScan finding types mapped to AVE ids. Source dataset: OpenClaw/clawhub-security-signals.</p>
+    <div class="tbl-wrap"><table class="ref">
+      <thead><tr><th>ClawScan finding type</th><th>AVE id</th></tr></thead>
+      <tbody>
+      <tr><td class="mono">instruction-override</td><td><span class="aveid">AVE-2026-00002</span></td></tr>
+<tr><td class="mono">remote-fetch</td><td><span class="aveid">AVE-2026-00001</span></td></tr>
+<tr><td class="mono">post-install-mutation</td><td><span class="aveid">AVE-2026-00042</span></td></tr>
+<tr><td class="mono">egress-to-unknown-host</td><td><span class="aveid">AVE-2026-00026</span></td></tr>
+<tr><td class="mono">cross-server-call</td><td><span class="aveid">AVE-2026-00045</span></td></tr>
+<tr><td class="mono">header-tamper</td><td><span class="aveid">AVE-2026-00049</span></td></tr>
+<tr><td class="mono">oauth-misconfig</td><td><span class="aveid">AVE-2026-00051</span></td></tr>
+<tr><td class="mono">type-spoof</td><td><span class="aveid">AVE-2026-00024</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="xw-section" style="padding-top:0;">
+  <div class="wrap">
+    <h2>AVE &rarr; OWASP &middot; MITRE ATLAS</h2>
+    <p class="note">Every AVE record maps to the frameworks teams already trust. Generated from the record set.</p>
+    <div class="tbl-wrap"><table class="ref">
+      <thead><tr><th>AVE id</th><th>Attack class</th><th>OWASP MCP</th><th>OWASP Agentic</th><th>MITRE ATLAS</th></tr></thead>
+      <tbody id="fwrows"></tbody>
+    </table></div>
+    <p class="note" style="margin-top:18px;">Maintain a scanner? <a href="architecture.html">Map your finding types to AVE &rarr;</a></p>
+  </div>
+</section>
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div class="lic">
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
+        <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/AVE-YYYY-NNNNN</span></p>
+      </div>
+      <div class="links">
+        <div>
+          <span class="h">Standard</span>
+          <a href="registry.html">Registry</a>
+          <a href="crosswalks.html">Crosswalks</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="schema.html">Schema v1.1</a>
+          <a href="https://github.com/bawbel/ave">GitHub repo</a>
+        </div>
+        <div>
+          <span class="h">Implementations</span>
+          <a href="https://github.com/bawbel/scanner">Bawbel scanner (reference)</a>
+          <a href="architecture.html">Build your own</a>
+        </div>
+      </div>
+    </div>
+    <div class="base">
+      <span>Sense. Protect. Secure. &mdash; ocean &amp; beyond</span>
+      <span>bawbel.io</span>
+    </div>
+  </div>
+</footer>
+<script src="records.js"></script>
+<script>
+const tb = document.getElementById('fwrows');
+window.RECORDS.slice().sort((a,b)=>a.ave_id<b.ave_id?-1:1).forEach(r=>{
+  const tr=document.createElement('tr');
+  const j=a=>(a&&a.length)?a.join(', '):'—';
+  tr.innerHTML=`<td><span class="aveid">${r.ave_id}</span></td><td class="mono">${r.attack_class}</td><td class="mono">${j(r.owasp_mcp)}</td><td class="mono">${j(r.owasp_mapping)}</td><td class="mono">${j(r.mitre_atlas_mapping)}</td>`;
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>

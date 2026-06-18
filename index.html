@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVE — Agentic Vulnerability Enumeration</title>
+<meta name="description" content="The open behavioral vulnerability standard for AI agents. AVE is the CVE for skill files, MCP servers, and the agent components the package world cannot see.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0a3024">
+<link rel="canonical" href="https://ave.bawbel.io/">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ave.bawbel.io/">
+<meta property="og:title" content="AVE — Agentic Vulnerability Enumeration">
+<meta property="og:description" content="The open behavioral vulnerability standard for AI agents. AVE is the CVE for skill files, MCP servers, and the agent components the package world cannot see.">
+<meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:site_name" content="AVE — Agentic Vulnerability Enumeration">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@bawbel_io">
+<meta name="twitter:title" content="AVE — Agentic Vulnerability Enumeration">
+<meta name="twitter:description" content="The open behavioral vulnerability standard for AI agents. AVE is the CVE for skill files, MCP servers, and the agent components the package world cannot see.">
+<meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
+
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/ave-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AVE — Agentic Vulnerability Enumeration",
+  "url": "https://ave.bawbel.io",
+  "description": "The open behavioral vulnerability standard for AI agents.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bawbel",
+    "url": "https://bawbel.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ave.bawbel.io/ave-favicon-512.png",
+      "width": 512,
+      "height": 512
+    }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://ave.bawbel.io/registry.html?q={{search_term_string}}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 6 C28 6 36 13 38 22 C30 20 24 22 20 27 C16 22 10 20 2 22 C4 13 12 6 20 6 Z" fill="#d4a017"/>
+        <path d="M20 27 L20 36 M20 27 C18 30 16 32 14 33 M20 27 C22 30 24 32 26 33" stroke="#9ec3b2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="14.5" cy="17" r="1.6" fill="#0a3024"/><circle cx="25.5" cy="17" r="1.6" fill="#0a3024"/>
+      </svg>
+      <span>
+        <span class="wm">A<b>V</b>E</span>
+        <span class="sub">Agentic Vulnerability Enumeration</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="registry.html">Registry</a>
+      <a href="crosswalks.html">Crosswalks</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="schema.html">Schema</a>
+      <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
+    </nav>
+  </div>
+</div>
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="pill">Open standard · Apache 2.0</span>
+    <h1>The <em>CVE</em> for AI agents</h1>
+    <p class="lede">A behavioral vulnerability standard for skill files, MCP servers, and the agent components the package world cannot see.</p>
+    <p class="sep">AVE is an open standard. The records describe behavior, not packages &mdash; so any scanner can map to them. Reference implementation: Bawbel scanner. <a href="architecture.html" style="color:var(--gold);">Build your own &rarr;</a></p>
+    <div class="stats">
+      <div class="stat"><div class="n" id="stat-count">12</div><div class="l">Records</div></div>
+      <div class="stat"><div class="n">v1.1</div><div class="l">Schema</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">Frameworks mapped</div></div>
+      <div class="stat"><div class="n">0.8</div><div class="l">AIVSS spec</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="routes">
+  <div class="wrap">
+    <div class="grid">
+      <a class="route" href="registry.html">
+        <span class="k">Browse</span><h3>Vulnerability registry</h3>
+        <p>Search, filter, and inspect every AVE record &mdash; severity, attack class, AIVSS, IOCs, framework mappings, and provenance.</p>
+        <span class="go">Open the registry &rarr;</span>
+      </a>
+      <a class="route" href="crosswalks.html">
+        <span class="k">Interoperate</span><h3>Crosswalks</h3>
+        <p>How other scanners and the frameworks you already trust map to AVE ids, so findings become comparable across tools.</p>
+        <span class="go">View crosswalks &rarr;</span>
+      </a>
+      <a class="route" href="architecture.html">
+        <span class="k">Implement</span><h3>Architecture</h3>
+        <p>The structure of the standard: record anatomy, the validation triangle, and the declares-vs-assigns contract any implementer must honor.</p>
+        <span class="go">Read the guide &rarr;</span>
+      </a>
+      <a class="route" href="schema.html">
+        <span class="k">Reference</span><h3>Schema v1.1</h3>
+        <p>Every field, its type, whether it is required, and what it means &mdash; plus the v1.1 evidence declarations and an example record.</p>
+        <span class="go">Open the schema &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="contribute" id="contribute">
+  <div class="wrap">
+    <div>
+      <h2>Contribute a new agentic flaw standard</h2>
+      <p>Found a behavioral vulnerability class the registry does not cover? AVE grows through peer review. Propose a record with a behavioral fingerprint, a detection rule, and positive plus negative fixtures.</p>
+    </div>
+    <a class="cta" href="https://github.com/bawbel/ave/blob/main/CONTRIBUTING.md">Read the guide &rarr;</a>
+  </div>
+</section>
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div class="lic">
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
+        <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/AVE-YYYY-NNNNN</span></p>
+      </div>
+      <div class="links">
+        <div>
+          <span class="h">Standard</span>
+          <a href="registry.html">Registry</a>
+          <a href="crosswalks.html">Crosswalks</a>
+          <a href="architecture.html">Architecture</a>
+          <a href="schema.html">Schema v1.1</a>
+          <a href="https://github.com/bawbel/ave">GitHub repo</a>
+        </div>
+        <div>
+          <span class="h">Implementations</span>
+          <a href="https://github.com/bawbel/scanner">Bawbel scanner (reference)</a>
+          <a href="architecture.html">Build your own</a>
+        </div>
+      </div>
+    </div>
+    <div class="base">
+      <span>Sense. Protect. Secure. &mdash; ocean &amp; beyond</span>
+      <span>bawbel.io</span>
+    </div>
+  </div>
+</footer>
+<script src="records.js"></script>
+<script>document.getElementById("stat-count").textContent=window.RECORDS.length;</script>
+</body>
+</html>

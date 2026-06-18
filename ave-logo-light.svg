@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <title>AVE — Agentic Vulnerability Enumeration (light variant)</title>
+  <rect width="320" height="80" rx="10" fill="#0a3024"/>
+
+  <g transform="translate(8, 12)">
+    <path d="M28 6 C38 5 48 12 52 22 C44 19 37 21 28 27 C19 21 12 19 4 22 C8 12 18 5 28 6 Z"
+          fill="#d4a017"/>
+    <path d="M28 27 L28 38" stroke="#9ec3b2" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M28 27 C24 31 20 33 17 34" stroke="#9ec3b2" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <path d="M28 27 C32 31 36 33 39 34" stroke="#9ec3b2" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <circle cx="21" cy="17" r="2.2" fill="#0a3024"/>
+    <circle cx="35" cy="17" r="2.2" fill="#0a3024"/>
+    <circle cx="22" cy="16.2" r="0.7" fill="#ffffff" opacity="0.6"/>
+    <circle cx="36" cy="16.2" r="0.7" fill="#ffffff" opacity="0.6"/>
+  </g>
+
+  <text x="72" y="46"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="700" font-size="42" letter-spacing="3"
+        fill="#eaf3ee">A</text>
+  <text x="104" y="46"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="700" font-size="42" letter-spacing="3"
+        fill="#d4a017">V</text>
+  <text x="135" y="46"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-weight="700" font-size="42" letter-spacing="3"
+        fill="#eaf3ee">E</text>
+
+  <text x="72" y="64"
+        font-family="'Courier New', monospace"
+        font-size="10" letter-spacing="2.5"
+        fill="#9ec3b2">AGENTIC VULNERABILITY ENUMERATION</text>
+</svg>

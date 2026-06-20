@@ -39,7 +39,7 @@
   "@type": "WebSite",
   "name": "AVE — Agentic Vulnerability Enumeration",
   "url": "https://ave.bawbel.io",
-  "description": "The open behavioral vulnerability standard for AI agents.",
+  "description": "The behavioral vulnerability enumeration standard for agentic AI components.",
   "publisher": {
     "@type": "Organization",
     "name": "Bawbel",
@@ -94,55 +94,15 @@
   <div class="wrap">
     <span class="pill">Crosswalks</span>
     <h1>Crosswalks</h1>
-    <p>The field has many scanners and no shared vocabulary &mdash; independent studies find different tools barely agree on what they flag. AVE is the neutral reference they can all map to. These crosswalks let findings from any tool resolve to a common AVE id, so results become comparable across the ecosystem.</p>
+    <p>The field has many scanners and frameworks and no shared vocabulary &mdash; independent studies find different tools barely agree on what they flag. AVE is the neutral reference they can all map to. These crosswalks let findings from SkillSpector, ClawScan, and OWASP AST10 all resolve to a common AVE id, so results become comparable across the ecosystem.</p>
   </div>
 </header>
 
-<section class="xw-section">
+<section class="xw-section" id="dynamic-crosswalks">
   <div class="wrap">
-    <h2>SkillSpector &rarr; AVE</h2>
-    <p class="note">NVIDIA SkillSpector organizes detection as 16 categories across 64 patterns. Each category maps to one or more AVE behavioral classes. Gaps marked &ldquo;&mdash;&rdquo; are categories with no distinct AVE class (or scanner-internal mechanics, not a vulnerability class).</p>
-    <div class="tbl-wrap"><table class="ref">
-      <thead><tr><th>SkillSpector category</th><th>AVE id(s)</th></tr></thead>
-      <tbody>
-      <tr><td class="mono">prompt injection</td><td><span class="aveid">AVE-2026-00002, AVE-2026-00013</span></td></tr>
-<tr><td class="mono">data exfiltration</td><td><span class="aveid">AVE-2026-00026</span></td></tr>
-<tr><td class="mono">privilege escalation</td><td><span class="aveid">AVE-2026-00045</span></td></tr>
-<tr><td class="mono">supply chain</td><td><span class="aveid">AVE-2026-00042</span></td></tr>
-<tr><td class="mono">excessive agency</td><td><span class="aveid">AVE-2026-00011, AVE-2026-00048</span></td></tr>
-<tr><td class="mono">output handling</td><td><span class="aveid">AVE-2026-00026</span></td></tr>
-<tr><td class="mono">system prompt leakage</td><td><span class="aveid">AVE-2026-00013</span></td></tr>
-<tr><td class="mono">memory poisoning</td><td><span class="aveid">AVE-2026-00013</span></td></tr>
-<tr><td class="mono">tool misuse</td><td><span class="aveid">AVE-2026-00045</span></td></tr>
-<tr><td class="mono">rogue agent</td><td><span class="aveid">AVE-2026-00048</span></td></tr>
-<tr><td class="mono">trigger abuse</td><td><span class="aveid">AVE-2026-00001</span></td></tr>
-<tr><td class="mono">dangerous code (AST)</td><td><span class="aveid">AVE-2026-00024</span></td></tr>
-<tr><td class="mono">taint tracking</td><td><span class="aveid">AVE-2026-00050</span></td></tr>
-<tr><td class="mono">YARA signatures</td><td><span class="aveid">— (engine, not a class)</span></td></tr>
-<tr><td class="mono">MCP least privilege</td><td><span class="aveid">AVE-2026-00011</span></td></tr>
-<tr><td class="mono">MCP tool poisoning</td><td><span class="aveid">AVE-2026-00002, AVE-2026-00045</span></td></tr>
-      </tbody>
-    </table></div>
-  </div>
-</section>
-
-<section class="xw-section" style="padding-top:0;">
-  <div class="wrap">
-    <h2>ClawScan &rarr; AVE</h2>
-    <p class="note">ClawScan finding types mapped to AVE ids. Source dataset: OpenClaw/clawhub-security-signals.</p>
-    <div class="tbl-wrap"><table class="ref">
-      <thead><tr><th>ClawScan finding type</th><th>AVE id</th></tr></thead>
-      <tbody>
-      <tr><td class="mono">instruction-override</td><td><span class="aveid">AVE-2026-00002</span></td></tr>
-<tr><td class="mono">remote-fetch</td><td><span class="aveid">AVE-2026-00001</span></td></tr>
-<tr><td class="mono">post-install-mutation</td><td><span class="aveid">AVE-2026-00042</span></td></tr>
-<tr><td class="mono">egress-to-unknown-host</td><td><span class="aveid">AVE-2026-00026</span></td></tr>
-<tr><td class="mono">cross-server-call</td><td><span class="aveid">AVE-2026-00045</span></td></tr>
-<tr><td class="mono">header-tamper</td><td><span class="aveid">AVE-2026-00049</span></td></tr>
-<tr><td class="mono">oauth-misconfig</td><td><span class="aveid">AVE-2026-00051</span></td></tr>
-<tr><td class="mono">type-spoof</td><td><span class="aveid">AVE-2026-00024</span></td></tr>
-      </tbody>
-    </table></div>
+    <div id="cw-loading" style="padding:30px 0;color:var(--ink-3);font-family:var(--mono);font-size:13px;">Loading crosswalks&hellip;</div>
+    <div id="cw-error" style="display:none;padding:20px;background:#fff3f0;border:1px solid #e0a89a;border-radius:10px;color:#a33;font-size:14px;"></div>
+    <div id="cw-mount"></div>
   </div>
 </section>
 
@@ -187,9 +147,141 @@
     </div>
   </div>
 </footer>
+<script>
+(function () {
+  var SEV_COLOR = { Critical: "#b3261e", High: "#c98a3a", Medium: "#5d6f66", Low: "#5d6f66" };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function chipList(ids) {
+    if (!ids || !ids.length) return '<span class="aveid">&mdash; (not an AVE behavioral class)</span>';
+    return '<span class="aveid">' + ids.map(escapeHtml).join(", ") + "</span>";
+  }
+
+  // Renders a "source tool -> AVE" crosswalk (SkillSpector, ClawScan, ...).
+  // Expected shape: { source: {tool, ...}, mappings: [{category, ave_ids[], note?}], note? }
+  function renderSourceToAve(data) {
+    var title = escapeHtml(data.source.tool) + " &rarr; AVE";
+    var sub = data.note ? "<p class=\"note\">" + escapeHtml(data.note) + "</p>" : "";
+    var rows = data.mappings.map(function (m) {
+      var cat = escapeHtml(m.category);
+      if (m.note) cat += ' <span style="color:var(--ink-3);font-size:11px;">(' + escapeHtml(m.note) + ")</span>";
+      return "<tr><td class=\"mono\">" + cat + "</td><td>" + chipList(m.ave_ids) + "</td></tr>";
+    }).join("\n");
+
+    return (
+      '<section class="xw-section" style="padding-top:0;"><div class="wrap">' +
+      "<h2>" + title + "</h2>" + sub +
+      '<div class="tbl-wrap"><table class="ref"><thead><tr><th>' +
+      escapeHtml(data.source.tool) + ' category</th><th>AVE id(s)</th></tr></thead><tbody>' +
+      rows + "</tbody></table></div></div></section>"
+    );
+  }
+
+  // Renders an "AVE -> target framework" crosswalk with per-category severity (AST10, ...).
+  // Expected shape: { target: {tool, ...}, mappings: [{ast_id, ast_title, ast_severity?, ave_ids[]}], coverage? }
+  function renderAveToTarget(data) {
+    var title = "AVE &rarr; " + escapeHtml(data.target.tool || data.target.standard || "Target");
+    var sub = data.note ? "<p class=\"note\">" + escapeHtml(data.note) + "</p>" : "";
+    var rows = data.mappings.map(function (m) {
+      var label = escapeHtml(m.ast_id || m.id) + " &mdash; " + escapeHtml(m.ast_title || m.title);
+      var sevBadge = "";
+      if (m.ast_severity) {
+        var color = SEV_COLOR[m.ast_severity] || "#5d6f66";
+        sevBadge =
+          ' <span style="font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:' +
+          color + ";border:1px solid " + color +
+          ';border-radius:5px;padding:1px 6px;margin-left:8px;">' +
+          escapeHtml(m.ast_severity).toUpperCase() + "</span>";
+      }
+      return "<tr><td class=\"mono\">" + label + sevBadge + "</td><td>" + chipList(m.ave_ids) + "</td></tr>";
+    }).join("\n");
+
+    var ghLink = "";
+    if (data.target && data.target.github) {
+      var mdUrl = data.target.github.replace("github.com/", "raw.githubusercontent.com/") ;
+    }
+
+    return (
+      '<section class="xw-section" style="padding-top:0;"><div class="wrap">' +
+      "<h2>" + title + "</h2>" + sub +
+      '<div class="tbl-wrap"><table class="ref"><thead><tr><th>' +
+      (data.target.tool || "Target") + ' category</th><th>AVE id(s)</th></tr></thead><tbody>' +
+      rows + "</tbody></table></div></div></section>"
+    );
+  }
+
+  function renderCrosswalk(data) {
+    // Heuristic: a "source -> AVE" crosswalk has data.source.tool and flat mappings
+    // keyed by "category". A "AVE -> target" crosswalk has data.target and mappings
+    // keyed by "ast_id"/"id" with an optional severity.
+    if (data.mappings && data.mappings.length && data.mappings[0].category !== undefined) {
+      return renderSourceToAve(data);
+    }
+    return renderAveToTarget(data);
+  }
+
+  async function loadCrosswalks() {
+    var loadingEl = document.getElementById("cw-loading");
+    var errorEl = document.getElementById("cw-error");
+    var mountEl = document.getElementById("cw-mount");
+
+    try {
+      var manifestRes = await fetch("crosswalks/manifest.json");
+      if (!manifestRes.ok) throw new Error("manifest.json " + manifestRes.status);
+      var manifest = await manifestRes.json();
+
+      var htmlParts = [];
+      var failures = [];
+
+      for (var i = 0; i < manifest.files.length; i++) {
+        var file = manifest.files[i];
+        try {
+          var res = await fetch("crosswalks/" + file);
+          if (!res.ok) throw new Error(res.status);
+          var data = await res.json();
+          htmlParts.push(renderCrosswalk(data));
+        } catch (e) {
+          failures.push(file);
+        }
+      }
+
+      loadingEl.style.display = "none";
+      mountEl.innerHTML = htmlParts.join("\n");
+
+      if (failures.length) {
+        errorEl.style.display = "block";
+        errorEl.textContent =
+          "Could not load: " + failures.join(", ") +
+          ". Other crosswalks loaded normally.";
+      }
+    } catch (e) {
+      loadingEl.style.display = "none";
+      errorEl.style.display = "block";
+      errorEl.textContent =
+        "Crosswalks could not be loaded (" + e.message + "). " +
+        "If you are running this locally, serve the site over HTTP " +
+        "(e.g. npx serve .) rather than opening the file directly \u2014 " +
+        "fetch() requires a server, not file://.";
+    }
+  }
+
+  loadCrosswalks();
+})();
+</script>
 <script src="records.js"></script>
 <script>
 const tb = document.getElementById('fwrows');
+window.RECORDS.forEach(r=>{
+  if(!r.severity && r.aivss && r.aivss.aivss_severity) r.severity=r.aivss.aivss_severity;
+  if(!r.aivss_score && r.aivss) r.aivss_score=r.aivss.aivss_score;
+  if(!r.detection_layer) r.detection_layer='content';
+  if(!r.owasp_mcp && r.aivss && r.aivss.owasp_mcp_mapping) r.owasp_mcp=r.aivss.owasp_mcp_mapping;
+});
 window.RECORDS.slice().sort((a,b)=>a.ave_id<b.ave_id?-1:1).forEach(r=>{
   const tr=document.createElement('tr');
   const j=a=>(a&&a.length)?a.join(', '):'—';

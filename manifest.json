@@ -1,13 +1,22 @@
 {
-  "name": "AVE — Agentic Vulnerability Enumeration",
+  "name": "AVE \u2014 Agentic Vulnerability Enumeration",
   "short_name": "AVE",
-  "description": "The open behavioral vulnerability standard for AI agents.",
+  "description": "The behavioral vulnerability enumeration standard for agentic AI components.",
   "start_url": "/",
   "display": "browser",
   "theme_color": "#0a3024",
   "background_color": "#f5f3ec",
   "icons": [
-    { "src": "/ave-favicon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/ave-favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "/ave-favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ave-favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

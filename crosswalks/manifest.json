@@ -1,0 +1,8 @@
+{
+  "$comment": "List every crosswalk JSON file in this folder here. The crosswalks page reads this file first, then fetches each listed file. Add a new crosswalk by dropping its JSON file in this folder and adding one line below — no HTML changes needed.",
+  "files": [
+    "skillspector-to-ave.json",
+    "clawscan-to-ave.json",
+    "ave-to-ast10.json"
+  ]
+}

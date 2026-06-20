@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ave.bawbel.io/schema/crosswalk-1.0.0.schema.json",
+  "source": {
+    "tool": "ClawScan",
+    "vendor": "OpenClaw",
+    "url": "https://github.com/openclaw",
+    "note": "Source dataset: OpenClaw/clawhub-security-signals"
+  },
+  "target": { "standard": "AVE", "version": "1.0.0", "url": "https://ave.bawbel.io" },
+  "generated": "2026-06-19",
+  "direction": "source-to-ave",
+  "note": "ClawScan finding types mapped to AVE ids.",
+  "mappings": [
+    { "category": "instruction-override",     "ave_ids": ["AVE-2026-00002"] },
+    { "category": "remote-fetch",              "ave_ids": ["AVE-2026-00001"] },
+    { "category": "post-install-mutation",     "ave_ids": ["AVE-2026-00042"] },
+    { "category": "egress-to-unknown-host",    "ave_ids": ["AVE-2026-00026"] },
+    { "category": "cross-server-call",         "ave_ids": ["AVE-2026-00045"] },
+    { "category": "header-tamper",             "ave_ids": ["AVE-2026-00049"] },
+    { "category": "oauth-misconfig",           "ave_ids": ["AVE-2026-00051"] },
+    { "category": "type-spoof",                "ave_ids": ["AVE-2026-00024"] }
+  ]
+}

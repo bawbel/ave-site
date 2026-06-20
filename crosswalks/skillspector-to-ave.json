@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ave.bawbel.io/schema/crosswalk-1.0.0.schema.json",
+  "source": {
+    "tool": "SkillSpector",
+    "vendor": "NVIDIA",
+    "url": "https://github.com/NVIDIA",
+    "note": "16 detection categories across 64 patterns"
+  },
+  "target": { "standard": "AVE", "version": "1.0.0", "url": "https://ave.bawbel.io" },
+  "generated": "2026-06-19",
+  "direction": "source-to-ave",
+  "note": "NVIDIA SkillSpector organizes detection as 16 categories across 64 patterns. Each category maps to one or more AVE behavioral classes. Gaps marked with an empty ave_ids array are categories with no distinct AVE class (or scanner-internal mechanics, not a vulnerability class).",
+  "mappings": [
+    { "category": "prompt injection",        "ave_ids": ["AVE-2026-00002", "AVE-2026-00013"] },
+    { "category": "data exfiltration",       "ave_ids": ["AVE-2026-00026"] },
+    { "category": "privilege escalation",    "ave_ids": ["AVE-2026-00045"] },
+    { "category": "supply chain",            "ave_ids": ["AVE-2026-00042"] },
+    { "category": "excessive agency",        "ave_ids": ["AVE-2026-00011", "AVE-2026-00048"] },
+    { "category": "output handling",         "ave_ids": ["AVE-2026-00026"] },
+    { "category": "system prompt leakage",   "ave_ids": ["AVE-2026-00013"] },
+    { "category": "memory poisoning",        "ave_ids": ["AVE-2026-00013"] },
+    { "category": "tool misuse",             "ave_ids": ["AVE-2026-00045"] },
+    { "category": "rogue agent",             "ave_ids": ["AVE-2026-00048"] },
+    { "category": "trigger abuse",           "ave_ids": ["AVE-2026-00001"] },
+    { "category": "dangerous code (AST)",    "ave_ids": ["AVE-2026-00024"] },
+    { "category": "taint tracking",          "ave_ids": ["AVE-2026-00050"] },
+    { "category": "YARA signatures",         "ave_ids": [], "note": "engine, not a class" },
+    { "category": "MCP least privilege",     "ave_ids": ["AVE-2026-00011"] },
+    { "category": "MCP tool poisoning",      "ave_ids": ["AVE-2026-00002", "AVE-2026-00045"] }
+  ]
+}

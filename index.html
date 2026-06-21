@@ -90,6 +90,7 @@
       <a href="registry.html">Registry</a>
       <a href="crosswalks.html">Crosswalks</a>
       <a href="architecture.html">Architecture</a>
+      <a href="scoring.html">Scoring</a>
       <a href="schema.html">Schema</a>
       <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
     </nav>
@@ -103,7 +104,7 @@
     <p class="sep">AVE is an open standard. The records describe behavior, not packages &mdash; so any scanner can map to them. Reference implementation: Bawbel scanner. <a href="architecture.html" style="color:var(--gold);">Build your own &rarr;</a></p>
     <div class="stats">
       <div class="stat"><div class="n" id="stat-count">12</div><div class="l">Records</div></div>
-      <div class="stat"><div class="n">v1.1</div><div class="l">Schema</div></div>
+      <div class="stat"><div class="n">v1.0</div><div class="l">Schema</div></div>
       <div class="stat"><div class="n">4</div><div class="l">Frameworks mapped</div></div>
       <div class="stat"><div class="n">0.8</div><div class="l">AIVSS spec</div></div>
     </div>
@@ -128,9 +129,14 @@
         <p>The structure of the standard: record anatomy, the validation triangle, and the declares-vs-assigns contract any implementer must honor.</p>
         <span class="go">Read the guide &rarr;</span>
       </a>
+      <a class="route" href="scoring.html">
+        <span class="k">Calculate</span><h3>Scoring</h3>
+        <p>How every record gets its severity number &mdash; the AIVSS formula, the 10 AARF factors, and worked examples from real records.</p>
+        <span class="go">See the formula &rarr;</span>
+      </a>
       <a class="route" href="schema.html">
-        <span class="k">Reference</span><h3>Schema v1.1</h3>
-        <p>Every field, its type, whether it is required, and what it means &mdash; plus the v1.1 evidence declarations and an example record.</p>
+        <span class="k">Reference</span><h3>Schema v1.0.0</h3>
+        <p>Every field, its type, whether it is required, and what it means &mdash; plus the evidence declarations and an example record.</p>
         <span class="go">Open the schema &rarr;</span>
       </a>
     </div>
@@ -152,7 +158,7 @@
       <div class="lic">
         <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
         <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
-        <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/AVE-YYYY-NNNNN</span></p>
+        <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/registry.html#AVE-YYYY-NNNNN</span></p>
       </div>
       <div class="links">
         <div>
@@ -160,7 +166,8 @@
           <a href="registry.html">Registry</a>
           <a href="crosswalks.html">Crosswalks</a>
           <a href="architecture.html">Architecture</a>
-          <a href="schema.html">Schema v1.1</a>
+          <a href="scoring.html">Scoring</a>
+          <a href="schema.html">Schema v1.0.0</a>
           <a href="https://github.com/bawbel/ave">GitHub repo</a>
         </div>
         <div>

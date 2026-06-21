@@ -221,7 +221,6 @@
     .grid2 { grid-template-columns: 1fr; }
     .xw-grid { grid-template-columns: 1fr; }
     .hero h1 { font-size: 38px; }
-    .topnav a:not(.gh) { display: none; }
     table.reg .hide-sm { display: none; }
   }
 
@@ -366,4 +365,53 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
   outline: 2px solid #1b8a5f;
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* ============ mobile nav toggle (hamburger) ============ */
+.nav-toggle { display: none; }
+.nav-toggle-label {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #2c5644;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.nav-toggle-label svg { width: 18px; height: 18px; }
+.nav-toggle-label .icon-close { display: none; }
+
+@media (max-width: 920px) {
+  .topbar .wrap { flex-wrap: wrap; }
+  .nav-toggle-label { display: inline-flex; order: 3; }
+  .brandmark { order: 1; }
+  .topnav {
+    order: 4;
+    flex-basis: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    width: 100%;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #1c4334;
+  }
+  .topnav a:not(.gh) {
+    display: block;
+    width: 100%;
+    padding: 10px 4px;
+    font-size: 15px;
+  }
+  .topnav a.gh {
+    margin-top: 8px;
+    display: inline-block;
+  }
+  .nav-toggle:checked ~ .topnav {
+    display: flex;
+  }
+  .nav-toggle:checked ~ .nav-toggle-label .icon-open { display: none; }
+  .nav-toggle:checked ~ .nav-toggle-label .icon-close { display: block; }
 }

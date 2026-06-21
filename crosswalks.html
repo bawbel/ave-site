@@ -169,23 +169,64 @@
     return '<span class="aveid">' + ids.map(escapeHtml).join(", ") + "</span>";
   }
 
-  // Renders a "source tool -> AVE" crosswalk (SkillSpector, ClawScan, ...).
-  // Expected shape: { source: {tool, ...}, mappings: [{category, ave_ids[], note?}], note? }
-  function renderSourceToAve(data) {
-    var title = escapeHtml(data.source.tool) + " &rarr; AVE";
+  // Find the first key on an object whose name ends with one of the given suffixes.
+  // Used so each renderer can find the "category label" field regardless of which
+  // source-specific key name a crosswalk file uses (skillspector_category,
+  // clawscan_module, ast_id, etc.) without hardcoding every possible name.
+  function firstKeyEndingWith(obj, suffixes) {
+    for (var i = 0; i < suffixes.length; i++) {
+      for (var k in obj) {
+        if (k.toLowerCase().indexOf(suffixes[i]) !== -1) return obj[k];
+      }
+    }
+    return undefined;
+  }
+
+  // Renders a flat "source tool -> AVE" crosswalk (SkillSpector-shaped).
+  // Mappings are flat objects with a *_category / *_module key, ave_ids[], notes.
+  function renderFlatSourceToAve(data) {
+    var toolName = data.source.tool;
+    var title = escapeHtml(toolName) + " &rarr; AVE";
     var sub = data.note ? "<p class=\"note\">" + escapeHtml(data.note) + "</p>" : "";
     var rows = data.mappings.map(function (m) {
-      var cat = escapeHtml(m.category);
-      if (m.note) cat += ' <span style="color:var(--ink-3);font-size:11px;">(' + escapeHtml(m.note) + ")</span>";
-      return "<tr><td class=\"mono\">" + cat + "</td><td>" + chipList(m.ave_ids) + "</td></tr>";
+      var cat = firstKeyEndingWith(m, ["category", "module"]);
+      var catHtml = escapeHtml(cat != null ? cat : "(uncategorised)");
+      if (m.gap) catHtml += ' <span style="color:var(--ink-3);font-size:11px;">&mdash; gap: ' + escapeHtml(m.gap) + "</span>";
+      var ids = m.ave_ids || [];
+      return "<tr><td class=\"mono\">" + catHtml + "</td><td>" + chipList(ids) + "</td></tr>";
     }).join("\n");
 
     return (
       '<section class="xw-section" style="padding-top:0;"><div class="wrap">' +
       "<h2>" + title + "</h2>" + sub +
       '<div class="tbl-wrap"><table class="ref"><thead><tr><th>' +
-      escapeHtml(data.source.tool) + ' category</th><th>AVE id(s)</th></tr></thead><tbody>' +
+      escapeHtml(toolName) + ' category</th><th>AVE id(s)</th></tr></thead><tbody>' +
       rows + "</tbody></table></div></div></section>"
+    );
+  }
+
+  // Renders a nested "source tool -> AVE" crosswalk (ClawScan-shaped): each mapping
+  // is a module containing a rules[] array, each rule carrying its own ave_ids[].
+  function renderNestedSourceToAve(data) {
+    var toolName = data.source.tool;
+    var title = escapeHtml(toolName) + " &rarr; AVE";
+    var sub = data.note ? "<p class=\"note\">" + escapeHtml(data.note) + "</p>" : "";
+    var rows = [];
+    data.mappings.forEach(function (m) {
+      var moduleName = firstKeyEndingWith(m, ["module", "category"]) || "(module)";
+      (m.rules || []).forEach(function (r) {
+        var ruleLabel = escapeHtml(r.rule_id || moduleName);
+        if (r.gap) ruleLabel += ' <span style="color:var(--ink-3);font-size:11px;">&mdash; gap: ' + escapeHtml(r.gap) + "</span>";
+        rows.push("<tr><td class=\"mono\">" + ruleLabel + "</td><td>" + chipList(r.ave_ids) + "</td></tr>");
+      });
+    });
+
+    return (
+      '<section class="xw-section" style="padding-top:0;"><div class="wrap">' +
+      "<h2>" + title + "</h2>" + sub +
+      '<div class="tbl-wrap"><table class="ref"><thead><tr><th>' +
+      escapeHtml(toolName) + ' rule</th><th>AVE id(s)</th></tr></thead><tbody>' +
+      rows.join("\n") + "</tbody></table></div></div></section>"
     );
   }
 
@@ -208,11 +249,6 @@
       return "<tr><td class=\"mono\">" + label + sevBadge + "</td><td>" + chipList(m.ave_ids) + "</td></tr>";
     }).join("\n");
 
-    var ghLink = "";
-    if (data.target && data.target.github) {
-      var mdUrl = data.target.github.replace("github.com/", "raw.githubusercontent.com/") ;
-    }
-
     return (
       '<section class="xw-section" style="padding-top:0;"><div class="wrap">' +
       "<h2>" + title + "</h2>" + sub +
@@ -223,11 +259,14 @@
   }
 
   function renderCrosswalk(data) {
-    // Heuristic: a "source -> AVE" crosswalk has data.source.tool and flat mappings
-    // keyed by "category". A "AVE -> target" crosswalk has data.target and mappings
-    // keyed by "ast_id"/"id" with an optional severity.
-    if (data.mappings && data.mappings.length && data.mappings[0].category !== undefined) {
-      return renderSourceToAve(data);
+    // A "source -> AVE" crosswalk has data.source.tool. Two known shapes exist:
+    //  - flat: mappings[] are leaf objects with their own ave_ids[] (SkillSpector)
+    //  - nested: mappings[] are modules containing rules[], each with ave_ids[] (ClawScan)
+    // An "AVE -> target" crosswalk has data.target instead (AST10).
+    if (data.source && data.source.tool && data.mappings && data.mappings.length) {
+      var first = data.mappings[0];
+      if (first.rules) return renderNestedSourceToAve(data);
+      return renderFlatSourceToAve(data);
     }
     return renderAveToTarget(data);
   }

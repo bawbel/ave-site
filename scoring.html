@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scoring — AVE</title>
-<meta name="description" content="How OWASP AIVSS v0.8 scoring works for AVE records: the formula, the 10 AARF factors, the Threat and Heuristic Multiplier, severity bands, and worked examples from real records.">
+<title>Scoring — AVE Behavioral Classification Standard</title>
+<meta name="description" content="The AIVSS v0.8 scoring formula used by every AVE record. Covers CVSS base, AARS, ThM, AARF factors, and two fully worked examples from published records.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0a3024">
 <link rel="canonical" href="https://ave.bawbel.io/scoring.html">
@@ -12,8 +12,8 @@
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ave.bawbel.io/scoring.html">
-<meta property="og:title" content="Scoring — AVE">
-<meta property="og:description" content="How OWASP AIVSS v0.8 scoring works for AVE records: the formula, the 10 AARF factors, the Threat and Heuristic Multiplier, severity bands, and worked examples from real records.">
+<meta property="og:title" content="Scoring — AVE Behavioral Classification Standard">
+<meta property="og:description" content="The AIVSS v0.8 scoring formula used by every AVE record. Covers CVSS base, AARS, ThM, AARF factors, and two fully worked examples from published records.">
 <meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
@@ -22,8 +22,8 @@
 <!-- Twitter card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@bawbel_io">
-<meta name="twitter:title" content="Scoring — AVE">
-<meta name="twitter:description" content="How OWASP AIVSS v0.8 scoring works for AVE records: the formula, the 10 AARF factors, the Threat and Heuristic Multiplier, severity bands, and worked examples from real records.">
+<meta name="twitter:title" content="Scoring — AVE Behavioral Classification Standard">
+<meta name="twitter:description" content="The AIVSS v0.8 scoring formula used by every AVE record. Covers CVSS base, AARS, ThM, AARF factors, and two fully worked examples from published records.">
 <meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 
 <!-- Favicons -->
@@ -39,7 +39,7 @@
   "@type": "WebSite",
   "name": "AVE — Agentic Vulnerability Enumeration",
   "url": "https://ave.bawbel.io",
-  "description": "The behavioral vulnerability enumeration standard for agentic AI components.",
+  "description": "The behavioral classification standard for agentic AI components.",
   "publisher": {
     "@type": "Organization",
     "name": "Bawbel",
@@ -100,7 +100,8 @@
   <div class="wrap">
     <span class="pill">Scoring · OWASP AIVSS v0.8</span>
     <h1>Scoring</h1>
-    <p>How every AVE record gets its severity number &mdash; the formula, the 10 agentic amplification factors, and two worked examples from real records.</p>
+    <p>How AVE scores every behavioral classification record &mdash; the AIVSS v0.8 formula,
+the 10 AARF amplification factors, and worked examples from real records.</p>
   </div>
 </header>
 
@@ -238,7 +239,7 @@
   <div class="wrap">
     <div class="cols">
       <div class="lic">
-        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance under an independent standards body &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
         <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
         <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/registry.html#AVE-YYYY-NNNNN</span></p>
       </div>

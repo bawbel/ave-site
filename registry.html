@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vulnerability Registry — AVE</title>
-<meta name="description" content="Search and filter every AVE record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
+<title>Behavioral Classification Registry — AVE</title>
+<meta name="description" content="Search and filter every AVE behavioral classification record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0a3024">
 <link rel="canonical" href="https://ave.bawbel.io/registry.html">
@@ -12,8 +12,8 @@
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ave.bawbel.io/registry.html">
-<meta property="og:title" content="Vulnerability Registry — AVE">
-<meta property="og:description" content="Search and filter every AVE record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
+<meta property="og:title" content="Behavioral Classification Registry — AVE">
+<meta property="og:description" content="Search and filter every AVE behavioral classification record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
 <meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
@@ -22,8 +22,8 @@
 <!-- Twitter card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@bawbel_io">
-<meta name="twitter:title" content="Vulnerability Registry — AVE">
-<meta name="twitter:description" content="Search and filter every AVE record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
+<meta name="twitter:title" content="Behavioral Classification Registry — AVE">
+<meta name="twitter:description" content="Search and filter every AVE behavioral classification record by severity, attack class, detection layer, and framework mapping. Includes AIVSS scores, IOCs, provenance, and MITRE ATLAS cross-references.">
 <meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 
 <!-- Favicons -->
@@ -39,7 +39,7 @@
   "@type": "WebSite",
   "name": "AVE — Agentic Vulnerability Enumeration",
   "url": "https://ave.bawbel.io",
-  "description": "The behavioral vulnerability enumeration standard for agentic AI components.",
+  "description": "The behavioral classification standard for agentic AI components.",
   "publisher": {
     "@type": "Organization",
     "name": "Bawbel",
@@ -99,8 +99,10 @@
 <header class="pagehead">
   <div class="wrap">
     <span class="pill">Registry</span>
-    <h1>Vulnerability registry</h1>
-    <p>Every AVE record. Search across ids, titles, attack classes, IOCs, and framework mappings; filter by severity, attack class, and detection layer; click any row for full detail and provenance.</p>
+    <h1>Behavioral classification registry</h1>
+    <p>Every AVE behavioral classification record. Search across ids, titles,
+attack classes, IOCs, and framework mappings; filter by severity, attack class,
+and detection layer; click any row for full detail, AIVSS scoring, and provenance.</p>
   </div>
 </header>
 
@@ -153,7 +155,7 @@
   <div class="wrap">
     <div class="cols">
       <div class="lic">
-        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance under an independent standards body &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
         <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
         <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/registry.html#AVE-YYYY-NNNNN</span></p>
       </div>
@@ -392,7 +394,7 @@ document.querySelectorAll('th[data-sort]').forEach(th=>{
 $('#dclose').addEventListener('click', closeDrawer);
 $('#overlay').addEventListener('click', closeDrawer);
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
-const docLabels={schema:'Schema v1.1 reference',architecture:'AVE architecture (implementer guide)',crosswalk:'crosswalk tables',adopt:'\'Adopt AVE in your tool\' guide'};
+const docLabels={schema:'Schema v1.0.0 reference',architecture:'AVE architecture (implementer guide)',crosswalk:'crosswalk tables',adopt:'\'Adopt AVE in your tool\' guide'};
 document.querySelectorAll('[data-doc]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); alert('Opens the '+(docLabels[a.dataset.doc]||a.dataset.doc)+' in the full site build.');}));
 
 if (typeof window.RECORDS === 'undefined' || !window.RECORDS || window.RECORDS.length === 0) {

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AVE — Agentic Vulnerability Enumeration</title>
-<meta name="description" content="AVE is the behavioral vulnerability enumeration standard for agentic AI components — skill files, MCP servers, and the agent components the package world cannot see.">
+<title>AVE — The Behavioral Classification Standard for Agentic AI</title>
+<meta name="description" content="AVE is the behavioral classification standard for agentic AI components. Stable IDs, AIVSS scores, and behavioral fingerprints for skill files, MCP servers, and agent plugins — mapped to OWASP, MITRE ATLAS, and the frameworks security teams trust.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0a3024">
 <link rel="canonical" href="https://ave.bawbel.io/">
@@ -12,8 +12,8 @@
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ave.bawbel.io/">
-<meta property="og:title" content="AVE — Agentic Vulnerability Enumeration">
-<meta property="og:description" content="AVE is the behavioral vulnerability enumeration standard for agentic AI components — skill files, MCP servers, and the agent components the package world cannot see.">
+<meta property="og:title" content="AVE — The Behavioral Classification Standard for Agentic AI">
+<meta property="og:description" content="AVE is the behavioral classification standard for agentic AI components. Stable IDs, AIVSS scores, and behavioral fingerprints for skill files, MCP servers, and agent plugins — mapped to OWASP, MITRE ATLAS, and the frameworks security teams trust.">
 <meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
@@ -22,8 +22,8 @@
 <!-- Twitter card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@bawbel_io">
-<meta name="twitter:title" content="AVE — Agentic Vulnerability Enumeration">
-<meta name="twitter:description" content="AVE is the behavioral vulnerability enumeration standard for agentic AI components — skill files, MCP servers, and the agent components the package world cannot see.">
+<meta name="twitter:title" content="AVE — The Behavioral Classification Standard for Agentic AI">
+<meta name="twitter:description" content="AVE is the behavioral classification standard for agentic AI components. Stable IDs, AIVSS scores, and behavioral fingerprints for skill files, MCP servers, and agent plugins — mapped to OWASP, MITRE ATLAS, and the frameworks security teams trust.">
 <meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 
 <!-- Favicons -->
@@ -39,7 +39,7 @@
   "@type": "WebSite",
   "name": "AVE — Agentic Vulnerability Enumeration",
   "url": "https://ave.bawbel.io",
-  "description": "The behavioral vulnerability enumeration standard for agentic AI components.",
+  "description": "The behavioral classification standard for agentic AI components.",
   "publisher": {
     "@type": "Organization",
     "name": "Bawbel",
@@ -99,9 +99,14 @@
 <header class="hero" id="top">
   <div class="wrap">
     <span class="pill">Open standard · Apache 2.0</span>
-    <h1>The behavioral vulnerability <em>enumeration</em> standard</h1>
-    <p class="lede">For agentic AI components &mdash; skill files, MCP servers, and the agent components the package world cannot see. The CVE for AI agents, scoped to behavior instead of packages.</p>
-    <p class="sep">AVE is an open standard. The records describe behavior, not packages &mdash; so any scanner can map to them. Reference implementation: Bawbel scanner. <a href="architecture.html" style="color:var(--gold);">Build your own &rarr;</a></p>
+    <h1>The <em>behavioral</em> classification standard for agentic AI</h1>
+    <p>Stable IDs, AIVSS scores, and behavioral fingerprints for every way an agentic
+component &mdash; skill file, MCP server, or agent plugin &mdash; can be weaponized.
+Scored consistently. Mapped to OWASP MCP Top 10, MITRE ATLAS, and the
+frameworks security teams already report against.</p>
+    <p>AVE is an open standard. Any scanner can implement it &mdash; the records define
+behavioral classes, not product-specific instances. Reference implementation:
+<a href="https://github.com/bawbel/scanner">Bawbel scanner</a>.</p>
     <div class="stats">
       <div class="stat"><div class="n" id="stat-count">12</div><div class="l">Records</div></div>
       <div class="stat"><div class="n">v1.0</div><div class="l">Schema</div></div>
@@ -156,7 +161,7 @@
   <div class="wrap">
     <div class="cols">
       <div class="lic">
-        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance under an independent standards body &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
         <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
         <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/registry.html#AVE-YYYY-NNNNN</span></p>
       </div>

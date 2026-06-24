@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Schema v1.0.0 — AVE</title>
-<meta name="description" content="Complete AVE record schema reference. Every field, type, required or optional status, and meaning. Includes the AIVSS v0.8 object, AARF factors, and scanner evidence declarations.">
+<title>Schema v1.0.0 — AVE Behavioral Classification Standard</title>
+<meta name="description" content="Every field in an AVE record: type, required or optional, meaning, and the evidence declarations. Schema v1.0.0 reference for tool implementers.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0a3024">
 <link rel="canonical" href="https://ave.bawbel.io/schema.html">
@@ -11,8 +11,8 @@
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ave.bawbel.io/schema.html">
-<meta property="og:title" content="Schema v1.0.0 — AVE">
-<meta property="og:description" content="Complete AVE record schema reference. Every field, type, required or optional status, and meaning. Includes the AIVSS v0.8 object, AARF factors, and scanner evidence declarations.">
+<meta property="og:title" content="Schema v1.0.0 — AVE Behavioral Classification Standard">
+<meta property="og:description" content="Every field in an AVE record: type, required or optional, meaning, and the evidence declarations. Schema v1.0.0 reference for tool implementers.">
 <meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
@@ -21,8 +21,8 @@
 <!-- Twitter card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@bawbel_io">
-<meta name="twitter:title" content="Schema v1.0.0 — AVE">
-<meta name="twitter:description" content="Complete AVE record schema reference. Every field, type, required or optional status, and meaning. Includes the AIVSS v0.8 object, AARF factors, and scanner evidence declarations.">
+<meta name="twitter:title" content="Schema v1.0.0 — AVE Behavioral Classification Standard">
+<meta name="twitter:description" content="Every field in an AVE record: type, required or optional, meaning, and the evidence declarations. Schema v1.0.0 reference for tool implementers.">
 <meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 
 <!-- Favicons -->
@@ -38,7 +38,7 @@
   "@type": "WebSite",
   "name": "AVE — Agentic Vulnerability Enumeration",
   "url": "https://ave.bawbel.io",
-  "description": "The behavioral vulnerability enumeration standard for agentic AI components.",
+  "description": "The behavioral classification standard for agentic AI components.",
   "publisher": {
     "@type": "Organization",
     "name": "Bawbel",
@@ -98,7 +98,8 @@
   <div class="wrap">
     <span class="pill">Schema v1.0.0</span>
     <h1>Record schema</h1>
-    <p>Every field in an AVE record &mdash; type, required or optional, and meaning. Records validate against <code>schema/ave-record.schema.json</code>. Schema sets <code>additionalProperties: false</code>.</p>
+    <p>AVE schema v1.0.0 &mdash; the field reference for the behavioral classification
+standard for agentic AI components.</p>
   </div>
 </header>
 <article class="doc"><div class="wrap">
@@ -187,7 +188,7 @@ references &middot; researcher</span></div>
   <div class="wrap">
     <div class="cols">
       <div class="lic">
-        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance under an independent standards body &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
         <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
         <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/registry.html#AVE-YYYY-NNNNN</span></p>
       </div>

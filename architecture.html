@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Architecture — AVE</title>
-<meta name="description" content="How an AVE record works: anatomy, the record/rule/fixture validation triangle, the declares-vs-assigns contract, and the SARIF emission convention for implementers.">
+<title>Architecture — AVE Behavioral Classification Standard</title>
+<meta name="description" content="How AVE works: record anatomy, the validation triangle, the declares-vs-assigns contract, and the five detection layers. For tool implementers and standard adopters.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0a3024">
 <link rel="canonical" href="https://ave.bawbel.io/architecture.html">
@@ -12,8 +12,8 @@
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ave.bawbel.io/architecture.html">
-<meta property="og:title" content="Architecture — AVE">
-<meta property="og:description" content="How an AVE record works: anatomy, the record/rule/fixture validation triangle, the declares-vs-assigns contract, and the SARIF emission convention for implementers.">
+<meta property="og:title" content="Architecture — AVE Behavioral Classification Standard">
+<meta property="og:description" content="How AVE works: record anatomy, the validation triangle, the declares-vs-assigns contract, and the five detection layers. For tool implementers and standard adopters.">
 <meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
@@ -22,8 +22,8 @@
 <!-- Twitter card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@bawbel_io">
-<meta name="twitter:title" content="Architecture — AVE">
-<meta name="twitter:description" content="How an AVE record works: anatomy, the record/rule/fixture validation triangle, the declares-vs-assigns contract, and the SARIF emission convention for implementers.">
+<meta name="twitter:title" content="Architecture — AVE Behavioral Classification Standard">
+<meta name="twitter:description" content="How AVE works: record anatomy, the validation triangle, the declares-vs-assigns contract, and the five detection layers. For tool implementers and standard adopters.">
 <meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 
 <!-- Favicons -->
@@ -39,7 +39,7 @@
   "@type": "WebSite",
   "name": "AVE — Agentic Vulnerability Enumeration",
   "url": "https://ave.bawbel.io",
-  "description": "The behavioral vulnerability enumeration standard for agentic AI components.",
+  "description": "The behavioral classification standard for agentic AI components.",
   "publisher": {
     "@type": "Organization",
     "name": "Bawbel",
@@ -92,7 +92,7 @@
       <a href="architecture.html" class="active">Architecture</a>
       <a href="scoring.html">Scoring</a>
       <a href="schema.html">Schema</a>
-      <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
+      <a class="gh" href="https://github.com/bawbel/ave" target="_blank">GitHub</a>
     </nav>
   </div>
 </div>
@@ -106,7 +106,9 @@
 
 <article class="doc">
   <div class="wrap">
-    <p class="lead">AVE is a standard, not software. Its &ldquo;architecture&rdquo; is the structure of the standard: the record schema, the record/rule/fixture validation triangle, the contract between a static record and a runtime finding, the framework mappings, and the SARIF emission convention. None of this describes any one product&rsquo;s internals &mdash; it describes what every implementer must honor.</p>
+    <p>AVE is a behavioral classification standard for agentic AI components. This page
+explains the standard at two levels: a high-level view for partners and adopters,
+and a detailed view for developers and security engineers implementing the standard.</p>
 
     <h2>The standard at a glance</h2>
     <figure>
@@ -137,7 +139,7 @@
         <!-- AVE hero -->
         <rect class="b-teal-h d-box" x="150" y="200" width="620" height="96" rx="12"/>
         <text class="t-title" x="460" y="234" text-anchor="middle" style="font-size:16px;">AVE — Agentic Vulnerability Enumeration</text>
-        <text class="t-sub" x="460" y="258" text-anchor="middle">Behavioral vulnerability enumeration standard — agentic AI components</text>
+        <text class="t-sub" x="460" y="258" text-anchor="middle">The behavioral classification standard for agentic AI components</text>
         <text class="t-sub" x="460" y="278" text-anchor="middle">Stable IDs · AIVSS v0.8 scored · behavioral fingerprints</text>
 
         <path class="edge" stroke="#3d524a" stroke-width="1.5" fill="none" d="M250 296 L210 340" marker-end="url(#ar1)"/>
@@ -248,7 +250,7 @@
     <div class="callout">
 
       <span class="k">Why runtime records are the hardest to defend</span>
-      <p>12 records are at the <code>runtime</code> layer — RAG injection, tool result manipulation, memory poisoning, A2A injection, context flooding, vision injection, REPL code mode, and async task poisoning. A static scanner cannot catch these because the malicious payload only exists during a live session. They require either a behavioral sandbox (run the agent and observe) or runtime monitoring (proxy tool results, audit memory writes). This is the gap bawbel-scanner v1.1+ will address with runtime analysis.</p>
+      <p>Several records are at the <code>runtime</code> layer — RAG injection, tool result manipulation, memory poisoning, A2A injection, context flooding, vision injection, REPL code mode, and async task poisoning. A static scanner cannot catch these because the malicious payload only exists during a live session. They require either a behavioral sandbox (run the agent and observe) or runtime monitoring (proxy tool results, audit memory writes). This is the gap bawbel-scanner v1.1+ will address with runtime analysis.</p>
     </div>
 
     <h2>How a record works</h2>
@@ -263,7 +265,7 @@
         <!-- record hero -->
         <rect class="b-teal d-box" x="40" y="30" width="840" height="172" rx="12"/>
         <text class="t-title" x="62" y="58">AVE record</text>
-        <text class="t-tiny" x="150" y="58">records/AVE-YYYY-NNNNN.json · validates against schema v1.1</text>
+        <text class="t-tiny" x="150" y="58">records/AVE-YYYY-NNNNN.json · validates against schema v1.0.0</text>
         <line x1="460" y1="74" x2="460" y2="190" stroke="#5d6f66" stroke-width="1" stroke-dasharray="3 3"/>
         <text class="t-sub" x="62" y="86" style="font-weight:600;fill:#0a4a3a;">Definition (static)</text>
         <text class="t-sub" x="62" y="110">ave_id · attack_class</text>
@@ -367,7 +369,7 @@
   <div class="wrap">
     <div class="cols">
       <div class="lic">
-        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance under an independent standards body &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
         <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
         <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/registry.html#AVE-YYYY-NNNNN</span></p>
       </div>
@@ -379,11 +381,11 @@
           <a href="architecture.html">Architecture</a>
           <a href="scoring.html">Scoring</a>
           <a href="schema.html">Schema v1.0.0</a>
-          <a href="https://github.com/bawbel/ave">GitHub repo</a>
+          <a href="https://github.com/bawbel/ave" target="_blank">GitHub repo</a>
         </div>
         <div>
           <span class="h">Implementations</span>
-          <a href="https://github.com/bawbel/scanner">Bawbel scanner (reference)</a>
+          <a href="https://github.com/bawbel/scanner" target="_blank">Bawbel scanner (reference)</a>
           <a href="architecture.html">Build your own</a>
         </div>
       </div>

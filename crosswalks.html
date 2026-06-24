@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crosswalks — AVE</title>
-<meta name="description" content="How SkillSpector, ClawScan, and other scanners map to AVE ids. How AVE records map to OWASP MCP Top 10, OWASP Agentic Top 10, and MITRE ATLAS.">
+<title>Crosswalks — AVE Behavioral Classification Standard</title>
+<meta name="description" content="How SkillSpector, ClawScan, OWASP AST10, OWASP MCP Top 10, and MITRE ATLAS map to AVE behavioral classification ids. Cross-tool finding deduplication reference.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0a3024">
 <link rel="canonical" href="https://ave.bawbel.io/crosswalks.html">
@@ -12,8 +12,8 @@
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ave.bawbel.io/crosswalks.html">
-<meta property="og:title" content="Crosswalks — AVE">
-<meta property="og:description" content="How SkillSpector, ClawScan, and other scanners map to AVE ids. How AVE records map to OWASP MCP Top 10, OWASP Agentic Top 10, and MITRE ATLAS.">
+<meta property="og:title" content="Crosswalks — AVE Behavioral Classification Standard">
+<meta property="og:description" content="How SkillSpector, ClawScan, OWASP AST10, OWASP MCP Top 10, and MITRE ATLAS map to AVE behavioral classification ids. Cross-tool finding deduplication reference.">
 <meta property="og:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
@@ -22,8 +22,8 @@
 <!-- Twitter card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@bawbel_io">
-<meta name="twitter:title" content="Crosswalks — AVE">
-<meta name="twitter:description" content="How SkillSpector, ClawScan, and other scanners map to AVE ids. How AVE records map to OWASP MCP Top 10, OWASP Agentic Top 10, and MITRE ATLAS.">
+<meta name="twitter:title" content="Crosswalks — AVE Behavioral Classification Standard">
+<meta name="twitter:description" content="How SkillSpector, ClawScan, OWASP AST10, OWASP MCP Top 10, and MITRE ATLAS map to AVE behavioral classification ids. Cross-tool finding deduplication reference.">
 <meta name="twitter:image" content="https://ave.bawbel.io/ave-favicon-512.png">
 
 <!-- Favicons -->
@@ -39,7 +39,7 @@
   "@type": "WebSite",
   "name": "AVE — Agentic Vulnerability Enumeration",
   "url": "https://ave.bawbel.io",
-  "description": "The behavioral vulnerability enumeration standard for agentic AI components.",
+  "description": "The behavioral classification standard for agentic AI components.",
   "publisher": {
     "@type": "Organization",
     "name": "Bawbel",
@@ -92,7 +92,7 @@
       <a href="architecture.html">Architecture</a>
       <a href="scoring.html">Scoring</a>
       <a href="schema.html">Schema</a>
-      <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
+      <a class="gh" href="https://github.com/bawbel/ave" target="_blank">GitHub</a>
     </nav>
   </div>
 </div>
@@ -100,7 +100,9 @@
   <div class="wrap">
     <span class="pill">Crosswalks</span>
     <h1>Crosswalks</h1>
-    <p>The field has many scanners and frameworks and no shared vocabulary &mdash; independent studies find different tools barely agree on what they flag. AVE is the neutral reference they can all map to. These crosswalks let findings from SkillSpector, ClawScan, and OWASP AST10 all resolve to a common AVE id, so results become comparable across the ecosystem.</p>
+    <p>How other scanners' detection categories and the frameworks security teams
+already use map to AVE behavioral classification ids &mdash; so findings from
+different tools become comparable through a shared vocabulary.</p>
   </div>
 </header>
 
@@ -127,7 +129,7 @@
   <div class="wrap">
     <div class="cols">
       <div class="lic">
-        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance as an OWASP project &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
+        <p><b>AVE is an open standard.</b> The schema and records are published under Apache 2.0. AVE is moving toward neutral governance under an independent standards body &mdash; it is meant to outlive any single implementation, including Bawbel's.</p>
         <p>Maps to OWASP MCP Top 10 &middot; OWASP Agentic AI Top 10 &middot; MITRE ATLAS &middot; OWASP AIVSS v0.8. The open record set can be consumed by any tool.</p>
         <p class="citing"><b>Citing AVE.</b> Reference a record by its id, which is permanent and never reused: <span class="cmono">AVE-YYYY-NNNNN: Title. Agentic Vulnerability Enumeration (AVE), Bawbel/AVE Project. https://ave.bawbel.io/registry.html#AVE-YYYY-NNNNN</span></p>
       </div>
@@ -139,11 +141,11 @@
           <a href="architecture.html">Architecture</a>
           <a href="scoring.html">Scoring</a>
           <a href="schema.html">Schema v1.0.0</a>
-          <a href="https://github.com/bawbel/ave">GitHub repo</a>
+          <a href="https://github.com/bawbel/ave" target="_blank">GitHub repo</a>
         </div>
         <div>
           <span class="h">Implementations</span>
-          <a href="https://github.com/bawbel/scanner">Bawbel scanner (reference)</a>
+          <a href="https://github.com/bawbel/scanner" target="_blank">Bawbel scanner (reference)</a>
           <a href="architecture.html">Build your own</a>
         </div>
       </div>

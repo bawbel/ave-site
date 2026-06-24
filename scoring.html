@@ -92,7 +92,7 @@
       <a href="architecture.html">Architecture</a>
       <a href="scoring.html" class="active">Scoring</a>
       <a href="schema.html">Schema</a>
-      <a class="gh" href="https://github.com/bawbel/ave">GitHub</a>
+      <a class="gh" href="https://github.com/bawbel/ave" target="_blank">GitHub</a>
     </nav>
   </div>
 </div>
@@ -107,7 +107,7 @@ the 10 AARF amplification factors, and worked examples from real records.</p>
 
 <article class="doc">
   <div class="wrap">
-    <p class="lead">AVE does not invent its own scoring system. Every record is scored using <a href="https://aivss.owasp.org">OWASP AIVSS v0.8</a> &mdash; the AI Vulnerability Severity Scoring standard. AVE implements AIVSS; it does not own or modify it. This page documents how that scoring works inside an AVE record, so a researcher writing a new record or a reviewer checking an existing one can verify the number is right.</p>
+    <p class="lead">AVE does not invent its own scoring system. Every record is scored using <a href="https://aivss.owasp.org" target="_blank">OWASP AIVSS v0.8</a> &mdash; the AI Vulnerability Severity Scoring standard. AVE implements AIVSS; it does not own or modify it. This page documents how that scoring works inside an AVE record, so a researcher writing a new record or a reviewer checking an existing one can verify the number is right.</p>
 
     <h2>The formula</h2>
     <div class="codeblock"><span class="g">AIVSS</span> = ((<span class="g">CVSS_Base</span> + <span class="g">AARS</span>) / 2) &times; <span class="g">ThM</span> &times; <span class="g">Mitigation_Factor</span></div>
@@ -231,7 +231,7 @@ the 10 AARF amplification factors, and worked examples from real records.</p>
     <h2>Where this lives in a record</h2>
     <p>Field-level reference for every part of the <code>aivss</code> object &mdash; required/optional status and types &mdash; is on the <a href="schema.html">Schema</a> page. This page explains how the numbers are derived; Schema documents the field shapes that hold them.</p>
 
-    <p style="margin-top:20px;">OWASP AIVSS v0.8 specification: <a href="https://aivss.owasp.org">aivss.owasp.org</a></p>
+    <p style="margin-top:20px;">OWASP AIVSS v0.8 specification: <a href="https://aivss.owasp.org" target="_blank">aivss.owasp.org</a></p>
   </div>
 </article>
 
@@ -251,11 +251,11 @@ the 10 AARF amplification factors, and worked examples from real records.</p>
           <a href="architecture.html">Architecture</a>
           <a href="scoring.html">Scoring</a>
           <a href="schema.html">Schema v1.0.0</a>
-          <a href="https://github.com/bawbel/ave">GitHub repo</a>
+          <a href="https://github.com/bawbel/ave" target="_blank">GitHub repo</a>
         </div>
         <div>
           <span class="h">Implementations</span>
-          <a href="https://github.com/bawbel/scanner">Bawbel scanner (reference)</a>
+          <a href="https://github.com/bawbel/scanner" target="_blank">Bawbel scanner (reference)</a>
           <a href="architecture.html">Build your own</a>
         </div>
       </div>
